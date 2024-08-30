@@ -1,8 +1,3 @@
-<script setup lang="ts">
-	import BooksSlider from './../components/landing/BooksSlider.vue';
-	import Grid from './../components/landing/Grid.vue';
-</script>
-
 <template>
 	<div>
 		<section class="hero">
@@ -33,20 +28,66 @@
 					كويزات مبتكرة لكل مستوى دراسي، من السنة السابعة أساسي حتى البكالوريا، لتحويل عملية المراجعة إلى تجربة ممتعة وتعزيز نجاحك
 					بشكل استثنائي.
 				</div>
-				<div class="partner-go"><span>كويز</span> <span>&gt;</span></div>
+				<div class="partner-go">
+					<span :class="{'cursor-pointer':level!==''}" @click="level = ''">كويز</span>
+					<span><Icon icon="carbon:chevron-left" /></span>
+					<template  v-if="level">
+						<span>مسارك الدراسي</span>
+						<span class="_circle" ><Icon icon="mdi:chevron-left" /></span>
+					</template>
+				</div>
 				<div class="partner-actions-container">
 					<span>اختار مسارك الدراسي :</span>
-					<div class="partner-actions">
+					<div class="partner-actions _3-actions" v-if="level === 'primary'">
 						<div class="partner-action-container">
 							<div class="partner-action">
+								<div class="partner-action-title">السابعة أساسي</div>
+							</div>
+						</div>
+						<div class="partner-action-container">
+							<div class="partner-action">
+								<div class="partner-action-title">الثامنة أساسي</div>
+							</div>
+						</div>
+						<div class="partner-action-container">
+							<div class="partner-action">
+								<div class="partner-action-title">التاسعة أساسي</div>
+							</div>
+						</div>
+					</div>
+					<div class="partner-actions _4-actions" v-else-if="level === 'secondary'">
+						<div class="partner-action-container">
+							<div class="partner-action">
+								<div class="partner-action-title">أولى ثانوي</div>
+							</div>
+						</div>
+						<div class="partner-action-container">
+							<div class="partner-action">
+								<div class="partner-action-title">الثانية ثانوي</div>
+							</div>
+						</div>
+						<div class="partner-action-container">
+							<div class="partner-action">
+								<div class="partner-action-title">الثالثة ثانوي</div>
+							</div>
+						</div>
+						<div class="partner-action-container">
+							<div class="partner-action">
+								<div class="partner-action-title">البكالوريا</div>
+							</div>
+						</div>
+					</div>
+					<div class="partner-actions" v-else>
+						<div class="partner-action-container" @click="level = 'primary'">
+							<div class="partner-action cursor-pointer">
 								<div class="partner-action-icon">
 									<img src="./../assets/first-level.svg" alt="" />
 								</div>
 								<div class="partner-action-title">تعليم اعدادي</div>
 							</div>
 						</div>
-						<div class="partner-action-container">
-							<div class="partner-action">
+						<div class="partner-action-container" @click="level = 'secondary'">
+							<div class="partner-action cursor-pointer">
 								<div class="partner-action-icon">
 									<img src="./../assets/second-level.svg" alt="" />
 								</div>
@@ -63,6 +104,14 @@
 		</section>
 	</div>
 </template>
+
+<script setup lang="ts">
+	import { ref } from 'vue';
+	import BooksSlider from './../components/landing/BooksSlider.vue';
+	import Grid from './../components/landing/Grid.vue';
+
+	const level = ref('');
+</script>
 
 <style scoped lang="scss">
 	.hero {
@@ -172,6 +221,22 @@
 				line-height: 51.09px;
 				text-align: center;
 				margin-top: 34px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap:8px;
+				._circle{
+					display: inline-block;
+					width: 48px;
+					height: 48px;
+					border-radius: 50%;
+					background-color: #fff;
+					box-shadow: 0px 4px 4px 0px #00000040;
+					margin-right: 8px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
 			}
 			.partner-actions-container {
 				span {
@@ -209,6 +274,44 @@
 								font-size: 40px;
 								font-weight: 700;
 								text-align: center;
+							}
+						}
+					}
+					&._3-actions {
+						gap: 94px;
+						margin-bottom: 90px;
+    				margin-right: -109px;
+						.partner-action-container {
+							.partner-action {
+								height: 150px;
+    						width: 340px;
+								padding: 51px 0;
+								.partner-action-title {
+									font-family: Inter;
+									font-size: 30px;
+									font-weight: 700;
+									line-height: 36.31px;
+									text-align: center;
+								}
+							}
+						}
+					}
+					&._4-actions {
+						gap: 40px;
+						margin-bottom: 90px;
+						margin-right: -108px;
+						.partner-action-container {
+							.partner-action {
+								height: 122px;
+								width: 269px;
+								padding: 38px 3px;
+								.partner-action-title {
+									font-family: Inter;
+									font-size: 30px;
+									font-weight: 700;
+									line-height: 36.31px;
+									text-align: center;
+								}
 							}
 						}
 					}

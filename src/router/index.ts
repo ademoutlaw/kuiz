@@ -1,4 +1,3 @@
-// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 
 import AppView from '@/views/app/AppView.vue';
@@ -18,8 +17,6 @@ import ProgressView from '@/views/app/ProgressView.vue';
 import { useUserStore } from '@/stores/user';
 import ProfileView from '@/views/app/ProfileView.vue';
 
-// const routes = ;
-
 const router = createRouter({
 	// history: createWebHistory(process.env.BASE_URL),
 	history: createWebHistory(),
@@ -30,7 +27,7 @@ const router = createRouter({
 			beforeEnter: () => {
 				const userStore = useUserStore();
 				if (!userStore.isAuthenticated) return;
-				router.replace({ name: 'level' });
+				router.replace({ name: 'appHome' });
 			},
 			children: [
 				{

@@ -1,57 +1,18 @@
 <template>
 	<div class="forget-pass-container">
-		<section v-if="step === 0">
-			<h1>نسيت كلمة السر؟</h1>
-			<el-form label-position="top">
-				<div class="form-row">
-					<el-form-item label="البريد الإلكتروني" prop="email">
-						<el-input v-model="email" id="email" placeholder="البريد الإلكتروني" />
-					</el-form-item>
-				</div>
-				<div>
-					<p>سنرسل رمز التحقق إلى هذا البريد الإلكتروني إذا كان هناك حساب Kuiz موجود يتطابق مع هذه المعلومات.</p>
-				</div>
-				<div>
-					<button @click="step++">تجديد كلمة السر</button>
-				</div>
-				<div><router-link :to="{ name: 'login' }">رجوع</router-link></div>
-			</el-form>
-		</section>
-		<section v-else-if="step === 1">
-			<h1>يرجى إدخال الرمز المكون من 6 أرقام</h1>
-			<div><p>ابحث عن رمز التحقق في البريد الإلكتروني w**@gmail.com</p></div>
-			<div class="otp-inputs-container">
-				<div class="otp-inputs">
-					<input type="text" id="otp-input-1" />
-					<input type="text" id="otp-input-2" />
-					<input type="text" id="otp-input-3" />
-					<input type="text" id="otp-input-4" />
-					<input type="text" id="otp-input-5" />
-					<input type="text" id="otp-input-6" />
-				</div>
-				<span>إعادة إرسال الرمز</span>
-			</div>
-			<div>
-				<button @click="step++">تجديد كلمة السر</button>
-			</div>
-		</section>
-		<section v-else>
-			<div>change password</div>
-			<div>
-				<button>تجديد كلمة السر</button>
-			</div>
-		</section>
+		<EmailForm />
+		<OtpForm />
+		<PasswordForm />
 	</div>
 </template>
 
 <script setup lang="ts">
-	import { ref } from 'vue';
-
-	const step = ref(0);
-	const email = ref('');
+	import EmailForm from '@/components/auth/forgetPassword/EmailForm.vue';
+	import OtpForm from '@/components/auth/forgetPassword/OtpForm.vue';
+	import PasswordForm from '@/components/auth/forgetPassword/PasswordForm.vue';
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 	.forget-pass-container {
 		margin: auto;
 		width: 700px;
@@ -67,11 +28,27 @@
 				font-weight: 700;
 				line-height: 48.41px;
 				text-align: center;
+				margin-bottom: 48px;
+			}
+			p {
+				font-family: Noto Naskh Arabic;
+				font-size: 22px;
+				font-weight: 400;
+				line-height: 37.47px;
+				text-align: center;
+				color: #4d4d4d;
+				padding:24px 0;
 			}
 			div {
 				text-align: center;
+				&.form-row{
+					text-align: right;
+					div{
+						text-align: right;
+					}
+				}
 			}
-			button {
+			.btn-form {
 				height: 61px;
 				padding: 10px 120px;
 				border-radius: 15px;

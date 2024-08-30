@@ -24,8 +24,8 @@
 			<div class="register-social-network" v-if="accountType === 'parent'">
 				<div class="line-or-line"><span>أو</span></div>
 				<div class="btns">
-					<button id="register-google-btn"><img src="@/assets/google.svg" alt="google" />سجّل باستخدام جوجل</button>
-					<button id="register-facebook-btn"><img src="@/assets/facebook.svg" alt="facebook" />سجّل باستخدام فيسبوك</button>
+					<button id="register-google-btn" @click="submit" ><img src="@/assets/google.svg" alt="google" />سجّل باستخدام جوجل</button>
+					<button id="register-facebook-btn" @click="submit" ><img src="@/assets/facebook.svg" alt="facebook" />سجّل باستخدام فيسبوك</button>
 				</div>
 			</div>
 		</div>

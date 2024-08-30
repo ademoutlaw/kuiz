@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed, reactive, ref } from 'vue';
+	import { reactive, ref } from 'vue';
 	import { ElMessage } from 'element-plus';
 
 	import { useUserStore } from '../../stores/user';

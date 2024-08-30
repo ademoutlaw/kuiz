@@ -1,12 +1,13 @@
 <template>
 	<div class="profile-container">
 		<div class="profile-right">
-			<div class="profile-photo-uploader"><img src="@/assets/add-photo.svg" alt="" /></div>
-			<button class="profile-password-changer">تغيير كلمة السر</button>
+			<div class="profile-photo-uploader"><img src="@/assets/add-photo.svg" alt=""  @click="openPictureModal" /></div>
+			<button class="profile-password-changer" @click="openPasswordModal">تغيير كلمة السر</button>
 			<button class="profile-delete">غلق الحساب</button>
 		</div>
 		<div class="profile-left">
-			<el-form label-position="top" label-width="auto" :rules="rules" ref="formRef" :model="form">
+			<el-form label-position="top" label-width="auto" :rules="rules" ref="formRef" :model="form" @submit.prevent="submit">
+				<h1>معلومات شخصية</h1>
 				<div class="form-row">
 					<el-form-item label="الاسم" prop="firstname">
 						<el-input v-model="form.firstname" id="firstname" placeholder="الاسم" />
@@ -15,6 +16,23 @@
 						<el-input v-model="form.lastname" id="lastname" placeholder="اللقب" />
 					</el-form-item>
 				</div>
+				<div class="form-row">
+					<el-form-item label="تاريخ الميلاد" prop="birthday" required>
+						<el-input v-model="form.birthday" id="birthday" type="date" placeholder="تاريخ الميلاد" />
+					</el-form-item>
+					<el-form-item label="ولاية" required prop="birthplace">
+						<el-input v-model="form.birthplace" id="birthplace" placeholder="ولاية" />
+					</el-form-item>
+				</div>
+				<div class="form-row">
+					<el-form-item label="رقم الهاتف" required>
+						<el-input v-model="form.mobile" id="mobile" placeholder="رقم الهاتف" />
+					</el-form-item>
+					<el-form-item label="(Email) البريد الإلكتروني" required>
+						<el-input v-model="form.email" id="email" placeholder="البريد الإلكتروني" />
+					</el-form-item>
+				</div>
+				<h1>معلومات أكاديمية</h1>
 				<div class="form-row">
 					<el-form-item label="المؤسسة التعليمية" required>
 						<el-select v-model="form.institution" id="institution" placeholder="المؤسسة التعليمية">
@@ -45,38 +63,34 @@
 					</el-form-item>
 					<div class="form-col" v-else></div>
 				</div>
-				<div class="form-row">
-					<el-form-item label="رقم الهاتف" required>
-						<el-input v-model="form.mobile" id="mobile" placeholder="رقم الهاتف" />
-					</el-form-item>
-					<el-form-item label="(Email) البريد الإلكتروني" required>
-						<el-input v-model="form.email" id="email" placeholder="البريد الإلكتروني" />
-					</el-form-item>
-				</div>
-
 				<div class="form-action">
-					<button id="register-btn" type="submit">إشترك الأن</button>
+					<button id="update-btn" type="submit">حفظ التعديل</button>
 				</div>
 			</el-form>
 		</div>
+		<ChangePictureModal v-model="showPictureModal" />
+		<PasswordFormModal v-model="showPasswordModal" />
 	</div>
 </template>
 
 <script setup lang="ts">
-	import { reactive } from 'vue';
-	import SelectLevel from '@/components/form/SelectLevel.vue';
-	const form = reactive<any>({
-		firstname: '',
-		lastname: '',
-		mobile: '',
-		email: '',
-		password: '',
-		rePassword: '',
-		institution: '',
-		level: '',
+	import { reactive, ref } from 'vue';
+	import SelectLevel from '@/components/auth/SelectLevel.vue';
+	import PasswordFormModal from '@/components/app/profile/PasswordFormModal.vue';
+import ChangePictureModal from '@/components/app/profile/ChangePictureModal.vue';
+	const _form = {
+		firstname: 'adem',
+		lastname: 'outlaw',
+		birthplace: 'تونس',
+		birthday: "1998-10-26",
+		mobile: '22114455',
+		email: 'isme@mail.com',
+		institution: 'معهد حي بوقطفة2',
+		level: '4',
 		optionalSubject: '',
 		branch: '',
-	});
+	};
+	const form = reactive<any>({ ..._form });
 	const rules = reactive({
 		firstname: [
 			{ required: true, message: 'Please input Activity name', trigger: 'blur' },
@@ -89,7 +103,7 @@
 		level: [
 			// { required: true, message: 'Please input Activity name', trigger: 'blur' },
 			{
-				validator: (_rule: any, value: any, callback: any) => {
+				validator: (_rule: any, _value: any, callback: any) => {
 					console.error('on ccccccccccc');
 					callback(new Error('on change'));
 				},
@@ -100,17 +114,30 @@
 		branch: [{ required: true, message: 'Please input Activity name', trigger: 'blur' }],
 		// age: [{ validator: checkAge, trigger: 'blur' }],
 	});
+	const showPasswordModal = ref(false);
+	const openPasswordModal = () => {
+		showPasswordModal.value = true;
+	};
+	const showPictureModal = ref(false);
+	const openPictureModal = () => {
+		showPictureModal.value = true;
+	};
+	const submit = () => {
+		console.log(form)
+	}
 </script>
 
 <style scoped lang="scss">
 	.profile-container {
 		display: flex;
+		gap: 80px;
 		.profile-right {
 			width: 248px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			gap: 6px;
+			flex-shrink: 0;
 			.profile-photo-uploader {
 				width: 200px;
 				height: 230px;
@@ -122,6 +149,13 @@
 				justify-content: center;
 				border: 1px solid #d9d9d9;
 				border-radius: 20px;
+				img{
+					opacity: 0;
+					transition: opacity 0.2s;
+				}
+				&:hover img{
+					opacity:1;
+				}
 			}
 			.profile-password-changer {
 				width: 200px;
@@ -141,39 +175,39 @@
 			}
 		}
 		.profile-left {
-			.form-row {
-				width: 100%;
-				display: flex;
-				justify-content: space-between;
-				gap: 30px;
-				.el-form-item__label {
-					font-family: Noto Naskh Arabic;
-					font-size: 18px;
-					font-weight: 500;
-					line-height: 30.65px;
-					text-align: right;
-					padding: 0 0 8px 0;
-					color: black;
-					direction: ltr;
-				}
-				.form-col,
-				.el-form-item {
-					width: 100%;
-					.el-input {
-						--el-input-border-radius: 15px;
-						.el-input__inner {
-							// width: 100%;
-							height: 53px;
-							// padding: 13px 16px 13px 16px;
-							// border-radius: 15px;
-							// border: 1px solid rgba(217, 217, 217, 1);
-						}
-					}
-					.el-form-item__error {
-						right: 0;
-					}
+			width: 100%;
+			padding-bottom: 20px;
+			h1 {
+				font-family: Noto Naskh Arabic;
+				font-size: 18px;
+				font-weight: 500;
+				line-height: 30.65px;
+				text-align: right;
+				color: #ef8114;
+				padding-bottom: 32px;
+			}
+			.form-action {
+				button {
+					background: #ef8114;
+					color: white;
+					// width: Hug (174px)px;
+					// height: 44px;
+					padding: 10px 40px 10px 40px;
+					border-radius: 15px;
 				}
 			}
 		}
 	}
+</style>
+<style lang="scss">
+.el-input__inner{
+	color: green;
+	div{
+		color: red;
+	}
+	[pseudo="-internal-datetime-container"]{
+		display: flex;
+		flex-direction: row-reverse;
+	}
+}
 </style>

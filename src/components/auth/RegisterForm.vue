@@ -1,13 +1,9 @@
 <template>
 	<div class="register-form-container">
-		<el-form label-position="top" label-width="auto" :rules="rules" ref="formRef" :model="form">
+		<el-form label-position="top" label-width="auto" :rules="rules" ref="formRef" :model="form" @submit.prevent="submitForm">
 			<div class="form-row">
-				<el-form-item label="الاسم" prop="firstname">
-					<el-input v-model="form.firstname" id="firstname" placeholder="الاسم" />
-				</el-form-item>
-				<el-form-item label="اللقب" required>
-					<el-input v-model="form.lastname" id="lastname" placeholder="اللقب" />
-				</el-form-item>
+				<KInput v-model="form.firstname" id="firstname" placeholder="الاسم" label="الاسم" prop="firstname" required />
+				<KInput v-model="form.lastname" id="lastname" placeholder="اللقب" label="اللقب"  prop="lastname" required  />				
 			</div>
 			<template v-if="accountType === 'student'">
 				<div class="form-row">
@@ -17,23 +13,10 @@
 							<el-option value="hello2">t</el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="المستوى الدراسي" required prop="level">
-						<el-select v-model="form.level" id="level" placeholder="المستوى الدراسي">
-							<el-option value="7">7</el-option>
-							<el-option value="8">8</el-option>
-							<el-option value="9">9</el-option>
-							<el-option value="1">1</el-option>
-							<el-option value="2">2</el-option>
-							<el-option value="3">3</el-option>
-							<el-option value="4">4</el-option>
-						</el-select>
-					</el-form-item>
+					<SelectLevel v-model="form.level" />
 				</div>
 				<div class="form-row" v-if="['2', '3', '4'].includes(form.level)">
-					<el-form-item label="شعبة" prop="branch">
-						<el-input v-model="form.branch" id="branch" placeholder="شعبة*" />
-					</el-form-item>
-
+					<SelectBranch :level="form.level" />
 					<el-form-item label="المادة الاختيارية" prop="optionalSubject" v-if="'4' === form.level">
 						<el-input v-model="form.optionalSubject" id="optional_subject" placeholder="المادة الاختيارية" />
 					</el-form-item>
@@ -41,16 +24,12 @@
 				</div>
 			</template>
 			<div class="form-row">
-				<el-form-item label="رقم الهاتف" required>
-					<el-input v-model="form.mobile" id="mobile" placeholder="رقم الهاتف" />
-				</el-form-item>
-				<el-form-item label="(Email) البريد الإلكتروني" required>
-					<el-input v-model="form.email" id="email" placeholder="البريد الإلكتروني" />
-				</el-form-item>
+				<KInput v-model="form.mobile" id="mobile" placeholder="رقم الهاتف" label="رقم الهاتف" prop="mobile" required />
+				<KInput  v-model="form.email" id="email" placeholder="البريد الإلكتروني" label="(Email) البريد الإلكتروني" prop="email" required />
 			</div>
 			<div class="form-row">
-				<el-form-item label="كلمة السّر" prop="password">
-					<el-input v-model="form.password" id="password" type="password" placeholder="كلمة السّر" />
+				<div class="form-col">
+					<KInput v-model="form.password" id="password" required type="password" placeholder="كلمة السّر" label="كلمة السّر" prop="password" />
 					<div class="password-checker">
 						<span>يجب أن تحتوي كلمة السر على:</span>
 						<div class="password-status">
@@ -60,10 +39,8 @@
 							<div :class="{ 'is-valid': password.hasUpperCase }">1 Majuscule</div>
 						</div>
 					</div>
-				</el-form-item>
-				<el-form-item label="تأكيد كلمة السّر" prop="rePassword">
-					<el-input v-model="form.rePassword" id="confirm_password" type="password" placeholder="تأكيد كلمة السّر" />
-				</el-form-item>
+				</div>
+				<KInput label="تأكيد كلمة السّر" prop="rePassword" v-model="form.rePassword" id="confirm_password" type="password" placeholder="تأكيد كلمة السّر" required />
 			</div>
 			<div class="form-action">
 				<button id="register-btn" type="submit">إشترك الأن</button>
@@ -77,6 +54,9 @@
 	import { computed, reactive, ref } from 'vue';
 	import type { FormInstance, FormRules } from 'element-plus';
 	import { createFormControlValidator } from '../../utils/utils';
+	import SelectLevel from './SelectLevel.vue';
+	import KInput from '../form/KInput.vue';
+	import SelectBranch from './SelectBranch.vue';
 
 	interface RegisterForm {
 		firstname: string;
@@ -120,7 +100,7 @@
 		};
 	});
 
-	const validatePassword = createFormControlValidator((_rule: any, value: any, callback: any) => {
+	const validatePassword = createFormControlValidator((_rule: any, _value: any, callback: any) => {
 		passwordBlured.value = true;
 		if (!(password.value.hasLength && password.value.hasNumber && password.value.hasLowerCase && password.value.hasUpperCase)) {
 			callback(new Error(''));
@@ -146,21 +126,27 @@
 		firstname: [
 			{ required: true, message: 'Please input Activity name', trigger: 'blur' },
 			{ min: 3, message: 'Length should be >3', trigger: 'blur' },
+			{
+				validator: (_rule: any, value: any, callback: any) => {
+					console.error('on blur x', value);
+				// 	if(['2', '3', '4'].includes(value))
+				// 	callback();
+				// else{
+				// 	callback("blur")
+				// }
+				callback("blur")
+				},
+				trigger: 'change',
+			},
 		],
 		lastname: [
 			{ required: true, message: 'Please input Activity name', trigger: 'blur' },
 			{ min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
 		],
 		level: [
-			// { required: true, message: 'Please input Activity name', trigger: 'blur' },
-			{
-				validator: (_rule: any, value: any, callback: any) => {
-					console.error('on blur');
-					callback();
-				},
-				trigger: 'change',
-			},
+			{ required: true, message: 'يرجى إدخال المستوى الدراسي', trigger: 'blur' },
 		],
+		
 		password: validatePassword,
 		rePassword: validateRePassowrd,
 		optionalSubject: [{ required: true, message: 'Please input Activity name', trigger: 'blur' }],
@@ -168,9 +154,9 @@
 		// age: [{ validator: checkAge, trigger: 'blur' }],
 	});
 
-	const submitForm = (formEl: FormInstance | undefined) => {
-		if (!formEl) return;
-		formEl.validate(valid => {
+	const submitForm = () => {
+		if (!formRef) return;
+		formRef.value?.validate(valid => {
 			if (valid) {
 				console.log('submit!');
 			} else {
@@ -195,6 +181,7 @@
 			.password-status {
 				display: flex;
 				justify-content: center;
+				align-items: center;
 				gap: 6px;
 				div {
 					padding: 10px 15px 10px 15px;

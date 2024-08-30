@@ -4,8 +4,8 @@
 			<div class="books-holder" :style="{ translate }">
 				<Book :number="book.number" :bg-color="book.bgColor" :title="book.title" v-for="book of books" :key="book.number" />
 			</div>
-			<div class="books-slider-btn" v-show="slideIdx < maxSlideIdx" @click="next">&gt;</div>
-			<div class="books-slider-btn books-slider-btn-right" v-show="slideIdx > 0" @click="prev">&lt;</div>
+			<div class="books-slider-btn" v-show="slideIdx < maxSlideIdx" @click="next"><Icon icon="mdi:chevron-left" /></div>
+			<div class="books-slider-btn books-slider-btn-right" v-show="slideIdx > 0" @click="prev"><Icon icon="mdi:chevron-right" /></div>
 		</div>
 	</div>
 	<span></span>
@@ -92,6 +92,7 @@
 				align-items: center;
 				font-size: x-large;
 				box-shadow: 0px 2px 9px #000000bd;
+				cursor: pointer;
 			}
 			.books-slider-btn-right {
 				left: unset;

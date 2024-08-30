@@ -76,38 +76,5 @@
 				}
 			}
 		}
-		.form-row {
-			width: 100%;
-			display: flex;
-			justify-content: space-between;
-			gap: 30px;
-			.el-form-item__label {
-				font-family: Noto Naskh Arabic;
-				font-size: 18px;
-				font-weight: 500;
-				line-height: 30.65px;
-				text-align: right;
-				padding: 0 0 8px 0;
-				color: black;
-				direction: ltr;
-			}
-			.form-col,
-			.el-form-item {
-				width: 100%;
-				.el-input {
-					--el-input-border-radius: 15px;
-					.el-input__inner {
-						// width: 100%;
-						height: 53px;
-						// padding: 13px 16px 13px 16px;
-						// border-radius: 15px;
-						// border: 1px solid rgba(217, 217, 217, 1);
-					}
-				}
-				.el-form-item__error {
-					right: 0;
-				}
-			}
-		}
 	}
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<div class="subject-container">
+	<div class="subject-container" >
 		<div class="subject-header-container">
 			<div class="subject-header">
 				<div class="subject-icon">
@@ -9,24 +9,28 @@
 			</div>
 		</div>
 		<div class="subject-chapters-container">
-			<div class="subject-chapters-menu">
+			<div class="subject-chapters-menu" ref="menuRef">
 				<ul>
-					<li v-for="i of 15" :key="i" @click="select(i)" :class="{ selected: selected === i }">
-						<span :href="`#chapter-${i}`">
+					<li v-for="i of 15" :key="i" @click="select(i)" :class="{ selected: selected === i }" :id="`menu_chapter_${i}`">
+						<span>
 							{{ `#chapter-${i}` }}
 						</span>
 					</li>
 				</ul>
 			</div>
-			<div class="subject-chapters-content" ref="root">
-				<div v-for="i of 15" :key="i" :id="`chapter-${i}`" class="subject-chapter-container" ref="itemRefs">
+			<div class="subject-chapters-content">
+				<div
+					v-for="i of 15"
+					:key="i"
+					:id="`chapter_${i}`"
+					class="subject-chapter-container"
+					ref="itemRefs"
+					v-intersection-observer="[([{ isIntersecting }]:any)=>{
+							observChapter(i, isIntersecting);
+						},{rootMargin }]"
+				>
 					<h1>{{ `#chapter-${i}` }}</h1>
-					<div
-						class="subject-chapter-quiz"
-						v-intersection-observer="[([{ isIntersecting, isVisible }]: any[])=>{
-							observChapter(i, isIntersecting, isVisible)
-						},{root}]"
-					>
+					<div class="subject-chapter-quiz">
 						<div v-for="j of 3" :key="j">
 							<div class="quiz-nbr">quiz n°{{ j }}</div>
 							<div class="quiz-title">Nombre de Questions : 15 Questions</div>
@@ -36,14 +40,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="chapter-menu">
-				<a :href="`#chapter-${i}`" v-for="i of 5" :key="i">
-					<ChapterLabel @click="select(i)" />
-				</a>
-			</div>
-			<div class="chapter-content">
-				<Chapter v-for="i of 5" :key="i" ref="div" :index="i" :id="`chapter-${i}`" />
-			</div> -->
 		</div>
 	</div>
 </template>
@@ -52,22 +48,43 @@
 
 	import { ref } from 'vue';
 
+	const itemRefs = ref<any[]>([]);
+	const menuRef = ref<any>(null);
 	const selected = ref(1);
-	let ignoreFirst = false;
-	const selections: boolean[] = [];
-
-	function observChapter(j: any, isIntersecting: any, isVisible: any) {
-		console.log(j, isIntersecting, isVisible);
-		selections[j - 1] = isIntersecting;
-		// if (isIntersecting && !selections[selected.value - 1]) {
-		// 	selected.value = j;
-		// }
-		if (isIntersecting) {
-			if (!ignoreFirst) {
-				selected.value = j;
-			}
-			if (selected.value !== j) {
-				ignoreFirst = false;
+	const selections = ref<boolean[]>([]);
+	// let timeout: any = null;
+	let tempSelected = 1;
+	let ignore = true;
+	// function debounceScroll(t:any){
+	// 	if(timeout){
+	// 		clearTimeout(timeout);
+	// 	}
+	// 	timeout = setTimeout(()=>{
+	// 		menuRef.value.scrollTop= t;
+	// 	},600)
+	// }
+	const rootMargin ="-400px 0px 0px 0px";
+	// function selectMenuItem(item:number) {
+	// 	if(ignore)return;
+	// 	if(selected.value===item) return;
+	// 	selected.value = item;
+	// 	if(menuRef.value){
+	// 		debounceScroll((item-1)*90);
+	// 	}
+	// }
+	function observChapter(j: any, isIntersecting: any) {
+		selections.value[j - 1] = isIntersecting;
+		if(ignore )return;
+		if (isIntersecting && !selections.value[tempSelected - 1]) {
+			tempSelected = j;
+			return; 
+		} 
+		if(!isIntersecting &&tempSelected===j){
+			for (let i = 0; i < selections.value.length; i++) {
+				if(selections.value[i]){
+					tempSelected = i+1;
+					break;
+				}
 			}
 		}
 	}
@@ -75,29 +92,31 @@
 	const subjectTitle = 'Chimie';
 	const subjectIcon = '/subjects/chimistry.svg';
 
-	const itemRefs = ref<any[]>([]);
-	const root = ref(null);
-
 	const select = (i: number) => {
-		console.log(i);
 		selected.value = i;
-		ignoreFirst = true;
+		tempSelected = i;
+		ignore = true;
 		const t = itemRefs.value[i - 1];
-		console.log(t);
 		if (t) {
 			t.scrollIntoView({ behavior: 'smooth' });
-			console.log(t.innerHTML);
 		}
 	};
+	const onScrollEnd = ()=>{
+		console.error("object");
+		ignore = false;
+		if(selected.value!==tempSelected){
+			selected.value = tempSelected;
+			if(menuRef.value){
+				menuRef.value.scrollTop= (tempSelected-1)*90;
+			}
+		}
+	}
+	document.addEventListener('scrollend', onScrollEnd)
 </script>
 
 <style scoped lang="scss">
 	.subject-container {
 		margin-top: -24px;
-		/* position: relative;
-		position: sticky;
-		top: 100px;
-		height: calc(100vh - 100px); */
 		direction: ltr;
 		.subject-header-container {
 			position: sticky;
@@ -230,18 +249,5 @@
 				}
 			}
 		}
-	}
-	.chapter {
-		/* position: sticky;
-		top: 0; */
-		top: 0;
-	}
-	.chapter-menu {
-		position: sticky;
-		top: 130px;
-		height: calc(100vh - 130px);
-	}
-	.chapter-content {
-		width: 100%;
 	}
 </style>
