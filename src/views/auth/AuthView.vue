@@ -14,6 +14,9 @@
 						<img src="@/assets/logo.png" />
 					</router-link>
 				</div>
+				<router-link :to="{ name: 'home' }">
+					<span src="@/assets/logo.png">رجوع<Icon icon="mdi:chevron-left" /></span>
+				</router-link>
 			</div>
 			<div><router-view /></div>
 		</div>
@@ -71,8 +74,21 @@
 			overflow-y: scroll;
 			.auth-header {
 				padding: 45px 0px 16px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
 				img {
 					width: 90px;
+				}
+				span {
+					display: flex;
+					align-items: center;
+					font-family: Noto Naskh Arabic;
+					font-size: 20px;
+					font-weight: 500;
+					line-height: 34.06px;
+					text-align: left;
+					color: #800080;
 				}
 			}
 		}

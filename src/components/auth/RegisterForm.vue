@@ -180,7 +180,7 @@ import { useAuth } from '@/composition/auth';
 	};
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	.register-form-container {
 		.password-checker {
 			span {
@@ -238,6 +238,10 @@ import { useAuth } from '@/composition/auth';
 					color: rgba(166, 0, 166, 1);
 				}
 			}
+		}
+		.el-select__wrapper,
+		.el-input__wrapper{
+			max-width: 507px;
 		}
 	}
 </style>
