@@ -52,11 +52,13 @@
 
 <script setup lang="ts">
 	import { computed, reactive, ref } from 'vue';
-	import type { FormInstance, FormRules } from 'element-plus';
-	import { createFormControlValidator } from '../../utils/utils';
+	import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
+	import { createEmailInputValidator, createFormControlValidator } from '../../utils/utils';
 	import SelectLevel from './SelectLevel.vue';
 	import KInput from '../form/KInput.vue';
 	import SelectBranch from './SelectBranch.vue';
+import { useRouter } from 'vue-router';
+import { useAuth } from '@/composition/auth';
 
 	interface RegisterForm {
 		firstname: string;
@@ -73,6 +75,8 @@
 
 	defineProps<{ accountType: 'parent' | 'student' | null }>();
 
+	const { register } = useAuth();
+	const router = useRouter();
 	const form = reactive<RegisterForm>({
 		firstname: '',
 		lastname: '',
@@ -123,30 +127,33 @@
 	});
 
 	const rules = reactive<FormRules<RegisterForm>>({
-		firstname: [
-			{ required: true, message: 'Please input Activity name', trigger: 'blur' },
-			{ min: 3, message: 'Length should be >3', trigger: 'blur' },
-			{
-				validator: (_rule: any, value: any, callback: any) => {
-					console.error('on blur x', value);
-				// 	if(['2', '3', '4'].includes(value))
-				// 	callback();
-				// else{
-				// 	callback("blur")
-				// }
-				callback("blur")
-				},
-				trigger: 'change',
-			},
-		],
-		lastname: [
-			{ required: true, message: 'Please input Activity name', trigger: 'blur' },
-			{ min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-		],
-		level: [
-			{ required: true, message: 'يرجى إدخال المستوى الدراسي', trigger: 'blur' },
-		],
+		firstname: createFormControlValidator((_rule: any, value: any, callback: any) => {
+		if (value === '') {
+			callback('Please input the first name');
+		} else if (value.length<3) {
+			callback("Length should be >3");
+		} else {
+			callback();
+		}
+	}),
 		
+		lastname: createFormControlValidator((_rule: any, value: any, callback: any) => {
+		if (value === '') {
+			callback('Please input the first name');
+		} else if (value.length<3) {
+			callback("Length should be >3");
+		} else {
+			callback();
+		}
+	}),
+		level: createFormControlValidator((_rule: any, value: any, callback: any) => {
+		if (value === '') {
+			callback('يرجى إدخال المستوى الدراسي');
+		} else {
+			callback();
+		}
+	}),
+		email:createEmailInputValidator('email required', 'email incorrect'),
 		password: validatePassword,
 		rePassword: validateRePassowrd,
 		optionalSubject: [{ required: true, message: 'Please input Activity name', trigger: 'blur' }],
@@ -158,9 +165,16 @@
 		if (!formRef) return;
 		formRef.value?.validate(valid => {
 			if (valid) {
-				console.log('submit!');
+				if(register(form)){
+					ElMessage.success('welcome');
+
+					router.replace({ name: 'login' });
+				}else{
+
+					ElMessage.error('existing EMail');
+				}
 			} else {
-				console.log('error submit!');
+				ElMessage.error('Fill all required Fields');
 			}
 		});
 	};

@@ -30,22 +30,39 @@
 	import { reactive, ref } from 'vue';
 	import { ElMessage } from 'element-plus';
 
-	import { useUserStore } from '../../stores/user';
 	import { useRouter } from 'vue-router';
+	import { createEmailInputValidator, createPasswordInputValidator } from '@/utils/utils';
+import { useAuth } from '@/composition/auth';
+	const { login } = useAuth();
 
 	const form = reactive({
 		email: '',
 		password: '',
 	});
+
 	const formRef = ref();
-	const rules = reactive({});
-	const userStore = useUserStore();
+	const rules = reactive({
+		email:createEmailInputValidator('email required', 'email incorrect'),
+		password:createPasswordInputValidator('password required', 'password incorrect'),
+	});
 	const router = useRouter();
 
 	const submit = () => {
-		ElMessage.error('Oops, this is a error message.');
-		userStore.setUser('hello world');
-		router.replace({ name: 'appHome' });
+		if (!formRef) return;
+		formRef.value?.validate((valid:boolean) => {
+			if (valid) {
+				if(login(form.email, form.password)){
+					ElMessage.success('welcome');
+
+					router.replace({ name: 'appHome' });
+				}else{
+
+					ElMessage.error('Bad credentials');
+				}
+			} else {
+				ElMessage.error('Fill all required Fields');
+			}
+		});
 	};
 </script>
 

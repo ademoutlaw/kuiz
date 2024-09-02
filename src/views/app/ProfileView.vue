@@ -80,7 +80,7 @@
 import ChangePictureModal from '@/components/app/profile/ChangePictureModal.vue';
 	const _form = {
 		firstname: 'adem',
-		lastname: 'outlaw',
+		lastname: 'ferjani',
 		birthplace: 'تونس',
 		birthday: "1998-10-26",
 		mobile: '22114455',
@@ -198,16 +198,4 @@ import ChangePictureModal from '@/components/app/profile/ChangePictureModal.vue'
 			}
 		}
 	}
-</style>
-<style lang="scss">
-.el-input__inner{
-	color: green;
-	div{
-		color: red;
-	}
-	[pseudo="-internal-datetime-container"]{
-		display: flex;
-		flex-direction: row-reverse;
-	}
-}
 </style>

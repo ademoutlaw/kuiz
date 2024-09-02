@@ -1,4 +1,5 @@
 import { reactive } from 'vue';
+import { useUserStore } from '@/stores/user';
 
 const resetPasswordData = reactive({
 	step: 0,
@@ -7,6 +8,7 @@ const resetPasswordData = reactive({
 });
 
 export const useAuth = () => {
+	const { setUser } = useUserStore();
 	const requestResetPassword = (email: string) => {
 		console.log(email);
 		resetPasswordData.step = 1;
@@ -27,10 +29,48 @@ export const useAuth = () => {
 		console.log(password);
 	};
 
+	const login = (email: string, password: string) => {
+		const usersStorage = localStorage.getItem('allUsers');
+		if (!usersStorage) return;
+		const users = JSON.parse(usersStorage);
+		for (const user of users) {
+			if (user.email === email.toLowerCase()) {
+				if (user.password === password) {
+					setUser(user);
+					return true;
+				}
+				// error
+				return false;
+			}
+		}
+	};
+
+	const register = (user: User) => {
+		const newUser = { ...user, email: user.email.toLowerCase(), name: `${user.firstname} ${user.lastname}` };
+		const usersStorage = localStorage.getItem('allUsers');
+		if (!usersStorage) {
+			localStorage.setItem('allUsers', JSON.stringify([newUser]));
+
+			return true;
+		}
+		const users = JSON.parse(usersStorage);
+		for (const u of users) {
+			if (u.email === newUser.email) {
+				return false;
+			}
+		}
+
+		users.push(newUser);
+		localStorage.setItem('allUsers', JSON.stringify(users));
+		return true;
+	};
+
 	return {
 		resetPasswordData,
 		requestResetPassword,
 		confirmOtp,
 		changePassword,
+		login,
+		register,
 	};
 };
