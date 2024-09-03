@@ -7,51 +7,64 @@
 	import KSelect from '@/components/form/KSelect.vue';
 	const branch = defineModel();
 	const prop = defineProps<{ level: string }>();
+	
 	const options = computed(() => {
 		return (
 			{
 				'4': [
 					{
-						label: 'السابعة أساسي',
-						value: '7',
+						label: 'الرياضيات',
+						value: 'math',
 					},
 					{
-						label: 'الثامنة أساسي',
-						value: '8',
+						label: 'الاقتصاد والتصرف',
+						value: 'echo',
 					},
 					{
-						label: 'التاسعة أساسي',
-						value: '9',
+						label: 'العلوم التجريبية',
+						value: 'science',
 					},
 					{
-						label: 'أولى ثانوي',
-						value: '1',
+						label: 'الاداب',
+						value: 'arts',
 					},
 					{
-						label: 'الثانية ثانوي',
-						value: '2',
+						label: 'العلوم التقنية',
+						value: 'tech',
 					},
 					{
-						label: 'الثالثة ثانوي',
-						value: '3',
+						label: 'الإعلامية',
+						value: 'info',
 					},
 					{
-						label: 'البكالوريا',
-						value: '4',
+						label: 'الرياضة',
+						value: 'sport',
 					},
 				],
 				'3': [
 					{
-						label: '3 Al',
-						value: '3al',
+						label: 'رياضيات',
+						value: 'math',
 					},
 					{
-						label: '3 Am',
-						value: '3ajl',
+						label: 'علوم تجريبية',
+						value: 'sci',
 					},
 					{
-						label: '3 Ax',
-						value: '3hal',
+						label: 'علوم التقنية',
+						value: 'tech',
+					},
+					{
+						label: 'الإعلامية',
+						value: 'info',
+					},
+					{
+						label: 'اقتصاد وتصرف',
+						value: 'echo',
+					},
+					{
+						label: 'الآداب',
+						value: 'arts',
 					},
 				],
 			}[prop.level] || []

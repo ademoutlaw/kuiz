@@ -31,7 +31,7 @@
 	import { ElMessage } from 'element-plus';
 
 	import { useRouter } from 'vue-router';
-	import { createEmailInputValidator, createPasswordInputValidator } from '@/utils/utils';
+	import { createInputValidatorByRegex } from '@/utils/utils';
 import { useAuth } from '@/composition/auth';
 	const { login } = useAuth();
 
@@ -42,8 +42,8 @@ import { useAuth } from '@/composition/auth';
 
 	const formRef = ref();
 	const rules = reactive({
-		email:createEmailInputValidator('email required', 'email incorrect'),
-		password:createPasswordInputValidator('password required', 'password incorrect'),
+		email:createInputValidatorByRegex('email required', 'email incorrect', 'email'),
+		password:createInputValidatorByRegex('password required', 'password incorrect', 'password'),
 	});
 	const router = useRouter();
 

@@ -23,15 +23,18 @@ body {
 	.form-col,
 	.el-form-item {
 		width: 100%;
+		--el-font-size-base: 20px;
 		.el-input {
 			--el-input-border-radius: 15px;
 			--el-input-border-color: #d9d9d9;
 			.el-input__inner {
 				// width: 100%;
 				height: 51px;
-				// padding: 13px 16px 13px 16px;
-				// border-radius: 15px;
-				// border: 1px solid rgba(217, 217, 217, 1);
+				font-family: Noto Naskh Arabic;
+				/* font-size: 20px; */
+				font-weight: 500;
+				line-height: 34.06px;
+				color: #808080;
 			}
 		}
 		.el-form-item__error {
@@ -41,6 +44,8 @@ body {
 			height: 53px;
 			border-radius: 15px;
 			text-align: right;
+			font-size: 20px;
+			color: #808080;
 		}
 	}
 	.form-btn {

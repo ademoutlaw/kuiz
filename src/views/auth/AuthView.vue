@@ -1,11 +1,13 @@
 <template>
 	<div class="auth-container">
 		<div class="auth-fixed-side">
-			<Grid />
-			<h1>
-				<span>كويزييي </span>
-				<span class="title-underline"> و إنجح.</span>
-			</h1>
+			<div class="auth-fixed-side_content">
+				<Grid />
+				<h1>
+					<span>كويزييي </span>
+					<span class="title-underline"> و إنجح.</span>
+				</h1>
+			</div>
 		</div>
 		<div class="auth-content">
 			<div class="auth-header">
@@ -35,34 +37,39 @@
 			height: 100vh;
 			background: rgba(128, 0, 128, 1);
 			width: 656px;
-			position: relative;
-			// flex-shrink: 0;
-			h1 {
+			position: sticky;
+			top:0;
+			.auth-fixed-side_content{
+
 				position: relative;
-				font-family: Inter;
-				font-size: 150px;
-				font-weight: 700;
-				line-height: 181.53px;
-				text-align: center;
-				display: flex;
-				flex-direction: column;
-				height: 100%;
-				justify-content: center;
-				color: #fff;
-				.title-underline {
+				// flex-shrink: 0;
+				h1 {
 					position: relative;
-					&::after {
-						content: '';
-						position: absolute;
-						width: 100%;
-						height: 50px;
-						bottom: -55px;
-						right: 0;
-						background-image: url(/src/assets/underline.svg);
-						background-repeat: no-repeat;
-						background-position: top center;
-						background-position-y: -59px;
-						background-size: 284px;
+					font-family: Inter;
+					font-size: 150px;
+					font-weight: 700;
+					line-height: 181.53px;
+					text-align: center;
+					display: flex;
+					flex-direction: column;
+					height: 100%;
+					justify-content: center;
+					color: #fff;
+					.title-underline {
+						position: relative;
+						&::after {
+							content: '';
+							position: absolute;
+							width: 100%;
+							height: 50px;
+							bottom: -55px;
+							right: 0;
+							background-image: url(/src/assets/underline.svg);
+							background-repeat: no-repeat;
+							background-position: top center;
+							background-position-y: -59px;
+							background-size: 284px;
+						}
 					}
 				}
 			}
@@ -70,8 +77,8 @@
 		.auth-content {
 			width: 100%;
 			padding: 0 50px;
-			height: 100vh;
-			overflow-y: scroll;
+			min-height: 100vh;
+			// overflow-y: scroll;
 			.auth-header {
 				padding: 45px 0px 16px;
 				display: flex;

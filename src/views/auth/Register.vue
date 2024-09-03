@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<div class="register-form-container" v-else>
-			<h6>*هذا الحقل إجباري</h6>
+			<h6>هذا الحقل إجباري</h6>
 			<RegisterForm :account-type="accountType" />
 			<div class="register-social-network" v-if="accountType === 'parent'">
 				<div class="line-or-line"><span>أو</span></div>
@@ -126,6 +126,10 @@
 				font-weight: 400;
 				line-height: 30.65px;
 				text-align: right;
+				&::before{
+					content:"*";
+					color:red;
+				}
 			}
 			.row {
 				display: flex;
