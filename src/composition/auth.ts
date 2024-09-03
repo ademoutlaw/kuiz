@@ -58,18 +58,52 @@ export const useAuth = () => {
 		if (!usersStorage) {
 			localStorage.setItem('allUsers', JSON.stringify([newUser]));
 
-			return true;
+			return {
+				success: 'تم تسجيل الدخول بنجاح',
+				errors: [],
+			};
 		}
 		const users = JSON.parse(usersStorage);
+		let sameEmail = false;
 		for (const u of users) {
 			if (u.email === newUser.email) {
-				return false;
+				sameEmail = true;
+				break;
 			}
+		}
+		let sameMobile = false;
+		for (const u of users) {
+			if (u.mobile === newUser.mobile) {
+				sameMobile = true;
+				break;
+			}
+		}
+		const errors = [];
+		if (sameEmail) {
+			errors.push({
+				message: 'هذا البريد الإلكتروني مستخدم بالفعل. جرّب بريد الإلكتروني آخر.',
+				isEmailError: true,
+			});
+		}
+		if (sameMobile) {
+			errors.push({
+				message: 'هذا رقم الهاتف مستخدم بالفعل. جرّب رقم الهاتف آخر.',
+				isMobileError: true,
+			});
+		}
+		if (errors.length > 0) {
+			return {
+				success: '',
+				errors,
+			};
 		}
 
 		users.push(newUser);
 		localStorage.setItem('allUsers', JSON.stringify(users));
-		return true;
+		return {
+			success: 'تم تسجيل الدخول بنجاح',
+			errors: [],
+		};
 	};
 
 	return {

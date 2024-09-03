@@ -40,18 +40,7 @@
 							<el-option value="hello2">t</el-option>
 						</el-select>
 					</el-form-item>
-					<SelectLevel v-model="form.level" />
-					<!-- <el-form-item label="المستوى الدراسي" required>
-						<el-select v-model="form.level" id="level" placeholder="المستوى الدراسي">
-							<el-option value="7">7</el-option>
-							<el-option value="8">8</el-option>
-							<el-option value="9">9</el-option>
-							<el-option value="1">1</el-option>
-							<el-option value="2">2</el-option>
-							<el-option value="3">3</el-option>
-							<el-option value="4">4</el-option>
-						</el-select>
-					</el-form-item> -->
+					<SelectLevel :institution="form.institution" v-model="form.level" />
 				</div>
 				<div class="form-row" v-if="['2', '3', '4'].includes(form.level)">
 					<el-form-item label="شعبة" prop="branch">

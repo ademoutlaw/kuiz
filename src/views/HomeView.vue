@@ -12,7 +12,7 @@
 						قل وداعًا للأساليب التقليدية المملة! مع كويز، استمتع بكويزات ديناميكية ومخصصة تتناسب مع كل مادة دراسية.
 					</div>
 					<div class="hero-action">
-						<button>إشترك الأن في كويز</button>
+						<router-link :to="{name:'register'}">إشترك الأن في كويز</router-link>
 					</div>
 				</div>
 				<div class="hero-img">
@@ -29,52 +29,52 @@
 					بشكل استثنائي.
 				</div>
 				<div class="partner-go">
-					<span :class="{'cursor-pointer':level!==''}" @click="level = ''">كويز</span>
+					<span>كويز</span>
 					<span><Icon icon="carbon:chevron-left" /></span>
 					<template  v-if="level">
 						<span>مسارك الدراسي</span>
-						<span class="_circle" ><Icon icon="mdi:chevron-left" /></span>
+						<span class="_circle cursor-pointer"  @click="level = ''"><Icon icon="mdi:chevron-left" /></span>
 					</template>
 				</div>
 				<div class="partner-actions-container">
 					<span>اختار مسارك الدراسي :</span>
 					<div class="partner-actions _3-actions" v-if="level === 'primary'">
 						<div class="partner-action-container">
-							<div class="partner-action">
+							<router-link :to="{name:'home'}" class="partner-action">
 								<div class="partner-action-title">السابعة أساسي</div>
-							</div>
+							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<div class="partner-action">
+							<router-link :to="{name:'home'}" class="partner-action">
 								<div class="partner-action-title">الثامنة أساسي</div>
-							</div>
+							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<div class="partner-action">
+							<router-link :to="{name:'home'}" class="partner-action">
 								<div class="partner-action-title">التاسعة أساسي</div>
-							</div>
+							</router-link>
 						</div>
 					</div>
 					<div class="partner-actions _4-actions" v-else-if="level === 'secondary'">
 						<div class="partner-action-container">
-							<div class="partner-action">
+							<router-link :to="{name:'home'}" class="partner-action">
 								<div class="partner-action-title">أولى ثانوي</div>
-							</div>
+							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<div class="partner-action">
+							<router-link :to="{name:'home'}" class="partner-action">
 								<div class="partner-action-title">الثانية ثانوي</div>
-							</div>
+							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<div class="partner-action">
+							<router-link :to="{name:'home'}" class="partner-action">
 								<div class="partner-action-title">الثالثة ثانوي</div>
-							</div>
+							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<div class="partner-action">
+							<router-link :to="{name:'home'}" class="partner-action">
 								<div class="partner-action-title">البكالوريا</div>
-							</div>
+							</router-link>
 						</div>
 					</div>
 					<div class="partner-actions" v-else>
@@ -174,7 +174,7 @@
 					text-align: right;
 				}
 				.hero-action {
-					button {
+					a {
 						padding: 15px 40px;
 						border-radius: 30px;
 						background: rgba(239, 129, 20, 1);

@@ -1,6 +1,14 @@
 <template>
 	<div class="register-form-container">
-		<el-form label-position="top" label-width="auto" :rules="rules" ref="formRef" :model="form" @submit.prevent="submitForm" @validate="onFormValidate">
+		<el-form
+			label-position="top"
+			label-width="auto"
+			:rules="rules"
+			ref="formRef"
+			:model="form"
+			@submit.prevent="submitForm"
+			@validate="onFormValidate"
+		>
 			<div class="form-row">
 				<KInput v-model="form.firstname" id="firstname" placeholder="الاسم" label="الاسم" prop="firstname" required />
 				<KInput v-model="form.lastname" id="lastname" placeholder="اللقب" label="اللقب" prop="lastname" required />
@@ -23,7 +31,15 @@
 				</div>
 			</template>
 			<div class="form-row">
-				<KInput v-model="form.mobile" id="mobile" placeholder="رقم الهاتف" label="رقم الهاتف" prop="mobile" required />
+				<KInput
+					v-model="form.mobile"
+					id="mobile"
+					placeholder="رقم الهاتف"
+					label="رقم الهاتف"
+					prop="mobile"
+					required
+					:error="mobileError"
+				/>
 				<KInput
 					v-model="form.email"
 					id="email"
@@ -31,6 +47,7 @@
 					label="(Email) البريد الإلكتروني"
 					prop="email"
 					required
+					:error="emailError"
 				/>
 			</div>
 			<div class="form-row">
@@ -46,10 +63,10 @@
 					/>
 					<div class="password-checker">
 						<div class="password-status">
-							<div :class="{ 'is-valid': password.hasLength ,'is-invalid':passwordBlured }">8 أحرف أو أكثر</div>
-							<div :class="{ 'is-valid': password.hasNumber,'is-invalid':passwordBlured }">1رقم</div>
-							<div :class="{ 'is-valid': password.hasLowerCase,'is-invalid':passwordBlured }">1 Minuscule</div>
-							<div :class="{ 'is-valid': password.hasUpperCase,'is-invalid':passwordBlured }">1 Majuscule</div>
+							<div :class="{ 'is-valid': password.hasLength, 'is-invalid': passwordBlured }">8 أحرف أو أكثر</div>
+							<div :class="{ 'is-valid': password.hasNumber, 'is-invalid': passwordBlured }">1رقم</div>
+							<div :class="{ 'is-valid': password.hasLowerCase, 'is-invalid': passwordBlured }">1 Minuscule</div>
+							<div :class="{ 'is-valid': password.hasUpperCase, 'is-invalid': passwordBlured }">1 Majuscule</div>
 						</div>
 					</div>
 				</div>
@@ -99,10 +116,12 @@
 
 	const { register } = useAuth();
 	const router = useRouter();
+	const emailError = ref('');
+	const mobileError = ref('');
 	const passwordBlured = ref(false);
 	const formHasSubmitted = ref(false);
 	const validationSet = ref(new Set());
-	const disabledSubmitBtn = computed(()=>formHasSubmitted.value && validationSet.value.size>0);
+	const disabledSubmitBtn = computed(() => formHasSubmitted.value && validationSet.value.size > 0);
 	const form = reactive<RegisterForm>({
 		firstname: '',
 		lastname: '',
@@ -156,21 +175,21 @@
 		lastname: createRequiredInputValidator('يرجى إدخال اللقب'),
 		institution: createRequiredInputValidator('يرجى إدخال المؤسسة التعليمية'),
 		level: createFormControlValidator((_rule: any, value: any, callback: any) => {
-			if (value === '' || (form.institution==="free"&& value!=="4")) {
+			if (value === '' || (form.institution === 'free' && value !== '4')) {
 				callback('يرجى إدخال المستوى الدراسي');
 			} else {
 				callback();
 			}
 		}),
 		branch: createFormControlValidator((_rule: any, value: any, callback: any) => {
-			if (value === '' && (form.level==="4"|| form.level==="3")) {
+			if (value === '' && (form.level === '4' || form.level === '3')) {
 				callback('يرجى إدخال الشعبة');
 			} else {
 				callback();
 			}
 		}),
 		optionalSubject: createFormControlValidator((_rule: any, value: any, callback: any) => {
-			if (value === '' && (form.level==="4"|| form.level==="3")) {
+			if (value === '' && (form.level === '4' || form.level === '3')) {
 				callback('يرجى إدخال المادة الاختيارية');
 			} else {
 				callback();
@@ -187,30 +206,45 @@
 		formHasSubmitted.value = true;
 		formRef.value?.validate(valid => {
 			if (valid) {
-				if (register(form)) {
+				const { success, errors } = register(form);
+				if (success) {
 					ElMessage.success('تم تسجيل الدخول بنجاح');
 					router.replace({ name: 'login' });
 				} else {
-					ElMessage.error('هذا البريد الإلكتروني مستخدم بالفعل. جرّب بريد الإلكتروني آخر.');
+					for (const error of errors) {
+						if (error.isEmailError) {
+							emailError.value = error.message;
+						} else if (error.isMobileError) {
+							mobileError.value = error.message;
+						}
+						ElMessage.error(error.message);
+					}
 				}
 			} else {
 				ElMessage.error('يرجى التحقق من بيانات الدخول');
 			}
 		});
 	};
-	const onFormValidate = (prop: string, isValid: boolean)=>{
-		if(isValid){
+	const onFormValidate = (prop: string, isValid: boolean) => {
+		if(prop==='mobile'){
+			mobileError.value='';
+		}
+		if(prop==='email'){
+			emailError.value='';
+		}
+		if (isValid) {
 			validationSet.value.delete(prop);
-		}else{
+		} else {
 			validationSet.value.add(prop);
 		}
-	}
+	};
+
 </script>
 
 <style lang="scss">
 	.register-form-container {
 		.password-checker {
-			margin-top:32px;
+			margin-top: 32px;
 			.password-status {
 				display: flex;
 				justify-content: center;
@@ -226,13 +260,13 @@
 					line-height: 23.84px;
 					text-align: left;
 				}
-				.is-invalid{
-					background-color: #E44B4B;
-					color:white;
+				.is-invalid {
+					background-color: #e44b4b;
+					color: white;
 				}
 				.is-valid {
-					color:white;
-					background: #1BA24D;;
+					color: white;
+					background: #1ba24d;
 				}
 			}
 		}
@@ -243,15 +277,15 @@
 				height: 53px;
 				padding: 10px 150px 10px 150px;
 				border-radius: 15px;
-				
+
 				background: rgba(239, 129, 20, 1);
 				font-family: Noto Naskh Arabic;
 				font-size: 18px;
 				font-weight: 700;
 				line-height: 30.65px;
 				color: #fff;
-				&:disabled{
-					background-color:#ccc;
+				&:disabled {
+					background-color: #ccc;
 				}
 			}
 			div {
