@@ -176,12 +176,10 @@
 				callback();
 			}
 		}),
-
 		mobile: createInputValidatorByRegex('يرجى إدخال رقم الهاتف', 'يرجى إدخال رقم الهاتف', 'mobile'),
 		email: createInputValidatorByRegex('يرجى إدخال البريد الإلكتروني (Email)', 'يرجى إدخال البريد الإلكتروني (Email)', 'email'),
 		password: validatePassword,
 		rePassword: validateRePassowrd,
-		// age: [{ validator: checkAge, trigger: 'blur' }],
 	});
 
 	const submitForm = () => {
@@ -190,13 +188,13 @@
 		formRef.value?.validate(valid => {
 			if (valid) {
 				if (register(form)) {
-					ElMessage.success('welcome');
+					ElMessage.success('تم تسجيل الدخول بنجاح');
 					router.replace({ name: 'login' });
 				} else {
-					ElMessage.error('existing EMail');
+					ElMessage.error('هذا البريد الإلكتروني مستخدم بالفعل. جرّب بريد الإلكتروني آخر.');
 				}
 			} else {
-				ElMessage.error('Fill all required Fields');
+				ElMessage.error('يرجى التحقق من بيانات الدخول');
 			}
 		});
 	};

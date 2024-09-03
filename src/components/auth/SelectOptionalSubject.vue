@@ -1,5 +1,5 @@
 <template>
-	<KSelect :options="options" id="otionalSubject" placeholder="شعبة" v-model="subject" prop="otionalSubject" label="شعبة" required />
+	<KSelect :options="options" id="optionalSubject" placeholder="المادة الاختيارية" v-model="subject" prop="optionalSubject" label="المادة الاختيارية" required />
 </template>
 
 <script setup lang="ts">
@@ -75,6 +75,7 @@
 	const options = computed(() => {
 		return optionsByBranches[prop.branch] || [...communOptions];
 	});
+
 </script>
 
 <style scoped></style>
