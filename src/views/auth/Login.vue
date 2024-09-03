@@ -5,14 +5,10 @@
 		<div class="login-form-container">
 			<el-form label-position="top" label-width="auto" :rules="rules" ref="formRef" :model="form" @submit.prevent="submit">
 				<div class="form-row">
-					<el-form-item label="البريد الإلكتروني" prop="email" required>
-						<el-input v-model="form.email" id="email" placeholder="البريد الإلكتروني" />
-					</el-form-item>
+					<KInput v-model="form.email" id="email" placeholder="رقم الهاتف أو البريد الإلكتروني" label="رقم الهاتف أو البريد الإلكتروني" prop="email" required />
 				</div>
 				<div class="form-row">
-					<el-form-item label="كلمة السّر" prop="password" required>
-						<el-input v-model="form.password" id="password" type="password" placeholder="كلمة السّر" />
-					</el-form-item>
+					<KInput label="كلمة السّر" prop="password" required v-model="form.password" id="password" type="password" placeholder="كلمة السّر"/>
 				</div>
 				<div>
 					<router-link :to="{ name: 'forgetPassword' }">نسيت كلمة السر؟</router-link>
@@ -33,6 +29,7 @@
 	import { useRouter } from 'vue-router';
 	import { createInputValidatorByRegex } from '@/utils/utils';
 import { useAuth } from '@/composition/auth';
+import KInput from '@/components/form/KInput.vue';
 	const { login } = useAuth();
 
 	const form = reactive({
@@ -42,8 +39,8 @@ import { useAuth } from '@/composition/auth';
 
 	const formRef = ref();
 	const rules = reactive({
-		email:createInputValidatorByRegex('email required', 'email incorrect', 'email'),
-		password:createInputValidatorByRegex('password required', 'password incorrect', 'password'),
+		email:createInputValidatorByRegex('يرجى إدخال رقم الهاتف أو البريد الإلكتروني', 'رقم الهاتف أو البريد الإلكتروني غير صحيح', 'login'),
+		password:createInputValidatorByRegex('يرجى إدخال كلمة السّر', 'كلمة المرور غير صحيحة', 'password'),
 	});
 	const router = useRouter();
 
@@ -52,15 +49,13 @@ import { useAuth } from '@/composition/auth';
 		formRef.value?.validate((valid:boolean) => {
 			if (valid) {
 				if(login(form.email, form.password)){
-					ElMessage.success('welcome');
-
+					ElMessage.success('تم تسجيل الدخول بنجاح');
 					router.replace({ name: 'appHome' });
 				}else{
-
-					ElMessage.error('Bad credentials');
+					ElMessage.error('يرجى التحقق من بيانات الدخول');
 				}
 			} else {
-				ElMessage.error('Fill all required Fields');
+				ElMessage.error('يرجى التحقق من بيانات الدخول');
 			}
 		});
 	};

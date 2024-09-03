@@ -17,11 +17,18 @@ export const useAuth = () => {
 
 	const confirmOtp = async (otp: string) => {
 		console.log(otp);
-		resetPasswordData.step = 2;
-		resetPasswordData.token = '';
+
+		if (otp === '123456') {
+			resetPasswordData.step = 2;
+			resetPasswordData.token = '';
+			return {
+				error: null,
+				success: 'تمت العملية بنجاح',
+			};
+		}
 		return {
-			error: null,
-			success: 'good token',
+			error: 'يرجى التحقق',
+			success: null,
 		};
 	};
 
@@ -31,7 +38,7 @@ export const useAuth = () => {
 
 	const login = (email: string, password: string) => {
 		const usersStorage = localStorage.getItem('allUsers');
-		if (!usersStorage) return;
+		if (!usersStorage) return false;
 		const users = JSON.parse(usersStorage);
 		for (const user of users) {
 			if (user.email === email.toLowerCase()) {

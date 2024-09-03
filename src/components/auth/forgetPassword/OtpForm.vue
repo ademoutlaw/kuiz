@@ -24,6 +24,7 @@
 <script setup lang="ts">
 	import { ref } from 'vue';
 	import { useAuth } from '@/composition/auth';
+import { ElMessage } from 'element-plus';
 
 	const { resetPasswordData, confirmOtp } = useAuth();
 
@@ -76,20 +77,20 @@
 	const submit = async () => {
 		const otp = `${otp6.value}${otp5.value}${otp4.value}${otp3.value}${otp2.value}${otp1.value}`;
 		if (otp.length < 6) {
+			ElMessage.error('يرجى التحقق');
 			return;
 		}
 		const { error, success } = await confirmOtp(otp);
 		if (error) {
-			//error
+			ElMessage.error(error);
 		} else {
-			//success
 			otp1.value = '';
 			otp2.value = '';
 			otp3.value = '';
 			otp4.value = '';
 			otp5.value = '';
 			otp6.value = '';
-			console.log(success);
+			ElMessage.success(success!);
 		}
 	};
 </script>

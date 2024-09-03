@@ -251,7 +251,7 @@
 				line-height: 30.65px;
 				color: #fff;
 				&:disabled{
-					background-color:gray;
+					background-color:#ccc;
 				}
 			}
 			div {
