@@ -30,20 +30,21 @@
 <script setup lang="ts"></script>
 <style scoped lang="scss">
 	header {
-		height: 158px;
+		height: 128px;
 		position: sticky;
 		top: 0;
 		z-index: 500;
 		background-color: white;
 		.header-logo {
 			flex-shrink: 0;
+			width: 81px;
 		}
 		.header-menu {
 			display: flex;
-			margin: 0 20px;
+			margin: 0 24px 0 32px;
 			gap: 32px;
 			flex-shrink: 0;
-			font-size: 24px;
+			font-size: 18px;
 			font-weight: 500;
 			line-height: 40.87px;
 			color: rgba(77, 77, 77, 1);
@@ -53,7 +54,7 @@
 		}
 		.header-search {
 			width: 100%;
-			height: 50px;
+			height: 38px;
 			border-radius: 30px;
 			overflow: hidden;
 			position: relative;
@@ -87,24 +88,22 @@
 			margin: 0 10px;
 			gap: 16px;
 			.header-login-btn {
-				background: rgba(255, 220, 255, 0.24);
+				background: #FFDCFF3D;
 				color: rgba(166, 0, 166, 1);
 				border-radius: 15px;
-				padding: 10px 40px;
-
-				font-size: 20px;
-				font-weight: 700;
+				padding: 2px 25px;
+				font-size: 16px;
+				font-weight: 500;
 				line-height: 34.06px;
 			}
 			.header-register-btn {
 				background-color: #d145ca;
 				color: white;
 				border-radius: 15px;
-				padding: 10px 40px;
+				padding: 2px 23px;
 				box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-				font-family: Noto Naskh Arabic;
-				font-size: 20px;
-				font-weight: 700;
+				font-size: 16px;
+				font-weight: 500;
 				line-height: 34.06px;
 			}
 		}
@@ -115,8 +114,9 @@
 			gap: 8px;
 			.header-lang-flag {
 				background-image: url(@/assets/tn-flag.svg);
-				width: 36px;
-				height: 36px;
+				width: 24px;
+				height: 24px;
+				background-size: contain;
 			}
 			.header-lang {
 				color: rgba(102, 102, 102, 1);

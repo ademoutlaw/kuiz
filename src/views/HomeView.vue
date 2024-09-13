@@ -16,7 +16,7 @@
 					</div>
 				</div>
 				<div class="hero-img">
-					<img src="./../assets/hero.svg" alt="hero" />
+					<img src="@/assets/hero.png" alt="hero" />
 				</div>
 			</div>
 		</section>
@@ -99,7 +99,7 @@
 			</div>
 		</section>
 		<section class="why-quiz">
-			<h3>لماذا كويز؟</h3>
+			<h3>علاش كويز؟</h3>
 			<BooksSlider />
 		</section>
 	</div>
@@ -136,13 +136,15 @@
 				color: white;
 				text-align: right;
 				height: 100%;
+				max-width: 566px;
+    		width: 100%;
 				display: flex;
 				flex-direction: column;
 				.hero-title {
 					font-family: Inter;
-					font-size: 100px;
+					font-size: 70px;
 					font-weight: 700;
-					line-height: 121.02px;
+					line-height: 84.72px;
 					text-align: right;
 					margin-bottom: 50px;
 					span {
@@ -160,7 +162,8 @@
 							background-image: url(/src/assets/underline.svg);
 							background-repeat: no-repeat;
 							background-position: top right;
-							background-position-y: -49px;
+							background-position-y: -33px;
+    					background-size: 160px 100px;
 						}
 					}
 					// width: 440px;
@@ -168,14 +171,16 @@
 				.hero-description {
 					margin: 10px 0;
 					font-family: Noto Naskh Arabic;
-					font-size: 40px;
+					font-size: 26px;
 					font-weight: 500;
-					line-height: 68.17px;
+					line-height: 44.31px;
 					text-align: right;
+					max-width: 566px;
 				}
 				.hero-action {
+					margin-top: 22px;
 					a {
-						padding: 15px 40px;
+						padding: 14px 40px;
 						border-radius: 30px;
 						background: rgba(239, 129, 20, 1);
 						border-bottom: 2px solid white;
@@ -186,13 +191,15 @@
 						font-weight: 700;
 						line-height: 51.09px;
 						text-align: left;
+						display: block;
+    				width: max-content;
 					}
 				}
 			}
 		}
 	}
 	.partner {
-		padding: 32px 275px;
+		padding: 32px 170px 48px;
 		margin: 24px auto;
 		background: rgba(255, 220, 255, 0.16);
 		position: relative;
@@ -201,24 +208,26 @@
 			.partner-title {
 				text-align: center;
 				font-family: Noto Naskh Arabic;
-				font-size: 50px;
+				font-size: 40px;
 				font-weight: 700;
-				line-height: 85.15px;
+				line-height: 68.12px;
 				color: black;
 			}
 			.partner-description {
+				margin-top:16px;
 				font-family: Noto Naskh Arabic;
-				font-size: 30px;
+				font-size: 26px;
 				font-weight: 700;
-				line-height: 51.09px;
+				line-height: 44.28px;
 				text-align: center;
 				color: rgba(51, 51, 51, 1);
+				padding: 0 142px;
 			}
 			.partner-go {
 				font-family: Noto Naskh Arabic;
-				font-size: 30px;
+				font-size: 26px;
 				font-weight: 700;
-				line-height: 51.09px;
+				line-height: 44.28px;
 				text-align: center;
 				margin-top: 34px;
 				display: flex;
@@ -243,15 +252,17 @@
 					text-align: right;
 					width: 100%;
 					display: block;
-					font-size: 25px;
+					font-size: 24px;
 					font-weight: 500;
 				}
 				.partner-actions {
 					display: flex;
 					gap: 94px;
 					margin-top: 32px;
+					justify-content: space-between;
 					.partner-action-container {
-						width: 100%;
+						width: 428px;
+						height: 155px;
 						border-bottom: 4px solid white;
 						border-radius: 50px;
 						box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -260,56 +271,57 @@
 							border: 4px solid currentColor;
 							border-radius: 50px;
 							width: 100%;
-							height: 214px;
+							// height: 214px;
 							display: flex;
 							flex-direction: column;
 							align-items: center;
-							padding: 22px;
+							padding: 13px 0 25px;
+    					gap: 16px;
 							justify-content: space-between;
 							.partner-action-icon {
-								font-size: 30px;
+								width:48px;
+								height:47px;
 								text-align: center;
 							}
 							.partner-action-title {
-								font-size: 40px;
+								font-size: 26px;
 								font-weight: 700;
+								line-height:44.31px;
 								text-align: center;
 							}
 						}
 					}
 					&._3-actions {
-						gap: 94px;
-						margin-bottom: 90px;
-    				margin-right: -109px;
+						// gap: 94px;
+						margin-bottom: 38px;
+    				// margin-right: -109px;
 						.partner-action-container {
+							height: 114px;
+							width: 316px;
 							.partner-action {
-								height: 150px;
-    						width: 340px;
-								padding: 51px 0;
+								padding: 30px 0;
 								.partner-action-title {
 									font-family: Inter;
-									font-size: 30px;
+									font-size: 26px;
 									font-weight: 700;
-									line-height: 36.31px;
+									line-height: 44.28px;
 									text-align: center;
 								}
 							}
 						}
 					}
 					&._4-actions {
-						gap: 40px;
-						margin-bottom: 90px;
-						margin-right: -108px;
+						margin: 32px -50px 38px;
 						.partner-action-container {
+							height: 114px;
+							width: 316px;
 							.partner-action {
-								height: 122px;
-								width: 269px;
-								padding: 38px 3px;
+								padding: 30px 0px;
 								.partner-action-title {
 									font-family: Inter;
-									font-size: 30px;
+									font-size: 26px;
 									font-weight: 700;
-									line-height: 36.31px;
+									line-height: 44.28px;
 									text-align: center;
 								}
 							}
@@ -321,13 +333,13 @@
 	}
 	.why-quiz {
 		background: #fefaf6;
-		padding: 16px 0px 59px 0;
+		padding: 32px 0px 59px 0;
 		h3 {
 			width: 100%;
 			text-align: center;
-			font-size: 50px;
+			font-size: 40px;
 			font-weight: 700;
-			line-height: 85.15px;
+			line-height: 68.12px;
 			margin-bottom: 66px;
 		}
 	}

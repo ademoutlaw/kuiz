@@ -1,11 +1,12 @@
 <template>
 	<div class="books-slider-container">
 		<div class="books-slider">
-			<div class="books-holder" :style="{ translate }">
+			<!-- :style="{ translate }" -->
+			<div class="books-holder" >
 				<Book :number="book.number" :bg-color="book.bgColor" :title="book.title" v-for="book of books" :key="book.number" />
 			</div>
-			<div class="books-slider-btn" v-show="slideIdx < maxSlideIdx" @click="next"><Icon icon="mdi:chevron-left" /></div>
-			<div class="books-slider-btn books-slider-btn-right" v-show="slideIdx > 0" @click="prev"><Icon icon="mdi:chevron-right" /></div>
+			<!-- <div class="books-slider-btn" v-show="slideIdx < maxSlideIdx" @click="next"><Icon icon="mdi:chevron-left" /></div>
+			<div class="books-slider-btn books-slider-btn-right" v-show="slideIdx > 0" @click="prev"><Icon icon="mdi:chevron-right" /></div> -->
 		</div>
 	</div>
 	<span></span>
@@ -13,7 +14,7 @@
 
 <script setup lang="ts">
 	import Book from './../cards/Book.vue';
-	import { computed, ref } from 'vue';
+	// import { computed, ref } from 'vue';
 
 	const books: { number: string; bgColor: string; containerBgColor: string; title: string }[] = [
 		{
@@ -42,20 +43,20 @@
 		},
 	];
 
-	const slideIdx = ref(0);
-	const translate = computed(() => `${slideIdx.value * 467}px`);
-	const maxSlideIdx = 1;
+	// const slideIdx = ref(0);
+	// const translate = computed(() => `${slideIdx.value * 467}px`);
+	// const maxSlideIdx = 1;
 
-	const prev = () => {
-		if (slideIdx.value > 0) {
-			slideIdx.value--;
-		}
-	};
-	const next = () => {
-		if (slideIdx.value < maxSlideIdx) {
-			slideIdx.value++;
-		}
-	};
+	// const prev = () => {
+	// 	if (slideIdx.value > 0) {
+	// 		slideIdx.value--;
+	// 	}
+	// };
+	// const next = () => {
+	// 	if (slideIdx.value < maxSlideIdx) {
+	// 		slideIdx.value++;
+	// 	}
+	// };
 </script>
 
 <style scoped lang="scss">

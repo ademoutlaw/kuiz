@@ -181,14 +181,15 @@
 						display: flex;
 						align-items: center;
 						font-family: Noto Naskh Arabic;
-						font-size: 16px;
+						font-size: 14px;
 						font-weight: 700;
-						line-height: 27.25px;
+						line-height: 23.84px;
 						color: #4d4d4d;
 					}
 					div div {
 						margin-top: 8px;
-						font-family: Noto Naskh Arabic;font-size: 16px;font-weight: 500;line-height: 27.25px;
+						font-family: Noto Naskh Arabic;
+						font-size: 14px;font-weight: 500;line-height: 23.84px;
 						color: #4d4d4d;
 					}
 				}

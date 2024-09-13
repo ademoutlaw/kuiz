@@ -7,7 +7,6 @@
 				<div></div>
 				<div></div>
 				<div></div>
-				<div></div>
 			</div>
 			<div class="book-content">
 				<div class="book-number">{{ number }}</div>
@@ -40,19 +39,10 @@
 	// --container-bg-color: beige;
 	.book-card-container {
 		background-color: var(--container-bg-color);
-		width: 447px;
-		height: 534px;
+		width: 319px;
+		height: 380px;
 		padding-bottom: 5px;
 		flex-shrink: 0;
-		&.small {
-			width: 320px;
-			height: 380px;
-			.book-card {
-				.book-content {
-					padding: 56px 47px;
-				}
-			}
-		}
 		.book-card {
 			width: 100%;
 			height: 100%;
@@ -83,7 +73,7 @@
 				div {
 					height: 25px;
 					background-color: var(--container-bg-color);
-					width: 39px;
+					width: 27px;
 					border-radius: 50px 0px 0px 50px;
 					box-shadow: inset 2px 3px 2px #0000003b;
 				}
@@ -98,34 +88,43 @@
 					background-color: white;
 					display: flex;
 					align-items: center;
-					width: 60px;
-					height: 60px;
+					width: 42px;
+					height: 42px;
 					justify-content: center;
 					border-radius: 10px;
 					color: var(--bg-color);
 					font-family: Inter;
-					font-size: 40px;
+					font-size: 35px;
 					font-weight: 700;
-					line-height: 48.41px;
+					line-height: 42.36px;
 					flex-shrink: 0;
 				}
 				.book-title {
 					color: white;
 					height: 100%;
-					padding-top: 8px;
+					padding-top: 11px;
 					font-family: Inter;
-					font-size: 40px;
+					font-size: 30px;
 					font-weight: 700;
-					line-height: 48.41px;
+					line-height: 36.31px;
 					text-align: center;
 				}
 				.book-more-details {
 					text-decoration: underline;
 					color: white;
 					font-family: Inter;
-					font-size: 20px;
+					font-size: 16px;
 					font-weight: 400;
-					line-height: 24.2px;
+					line-height: 19.36px;
+				}
+			}
+		}
+		&.small {
+			width: 320px;
+			height: 380px;
+			.book-card {
+				.book-content {
+					padding: 56px 47px;
 				}
 			}
 		}
