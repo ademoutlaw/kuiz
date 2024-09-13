@@ -7,7 +7,7 @@
 					<h4>المادة</h4>
 					<div class="_footer">
 						<div class="_icon">
-							<img src="/subjects/chimistry.svg" alt="" />
+							<img src="/images/subjects/chimistry.svg" alt="" />
 						</div>
 						<div class="_subject">Chimie</div>
 					</div>

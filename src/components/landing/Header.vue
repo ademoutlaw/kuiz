@@ -16,10 +16,11 @@
 				<img src="@/assets/search.svg" alt="search" />
 			</div>
 		</div>
-		<div class="header-sign-btns">
+		<HeaderAccount />
+		<!-- <div class="header-sign-btns">
 			<router-link :to="{ name: 'login' }" class="header-login-btn">تسجيل دخول</router-link>
 			<router-link :to="{ name: 'register' }" class="header-register-btn">اشترك الان</router-link>
-		</div>
+		</div> -->
 		<div class="header-lang-setting">
 			<div class="header-lang-flag"></div>
 			<div class="header-lang">عربية</div>
@@ -27,7 +28,9 @@
 	</header>
 </template>
 <!--  -->
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import HeaderAccount from '../HeaderAccount.vue';
+</script>
 <style scoped lang="scss">
 	header {
 		height: 158px;

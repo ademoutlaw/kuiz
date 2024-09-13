@@ -19,7 +19,8 @@
 			<div class="header-action">
 				<img src="@/assets/bell.svg" alt="notif" />
 			</div>
-			<div>
+			<HeaderAccount />
+			<!-- <div>
 				<el-dropdown trigger="click">
 					<span class="el-dropdown-link">
 						<div class="avatar">{{ firstChar }}</div>
@@ -32,26 +33,14 @@
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>
-			</div>
+			</div> -->
 			<!-- <div class="header-lang" @click="logout">logout</div> -->
 		</div>
 	</header>
 </template>
 <!--  -->
 <script setup lang="ts">
-	import { useRouter } from 'vue-router';
-	import { ArrowDown } from '@element-plus/icons-vue';
-	import { useUserStore } from '@/stores/user';
-	const router = useRouter();
-
-	const userStore = useUserStore();
-
-	const firstChar = 'A';
-
-	const logout = () => {
-		userStore.logout();
-		router.replace({ name: 'home' });
-	};
+	import HeaderAccount from '../HeaderAccount.vue';
 </script>
 <style scoped lang="scss">
 	header {

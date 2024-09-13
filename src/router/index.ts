@@ -16,6 +16,8 @@ import ContentView from '@/views/ContentView.vue';
 import ProgressView from '@/views/app/ProgressView.vue';
 import { useUserStore } from '@/stores/user';
 import ProfileView from '@/views/app/ProfileView.vue';
+import VerifyEmailMessage from '@/views/auth/VerifyEmailMessage.vue';
+import { useAuth } from '@/composition/auth';
 
 const router = createRouter({
 	// history: createWebHistory(process.env.BASE_URL),
@@ -24,10 +26,14 @@ const router = createRouter({
 		{
 			path: '/',
 			name: 'public',
-			beforeEnter: () => {
+			beforeEnter: async () => {
+				const { loadUser } = useAuth();
+				await loadUser();
 				const userStore = useUserStore();
-				if (!userStore.isAuthenticated) return;
-				router.replace({ name: 'appHome' });
+				if (userStore.isLoggedIn) {
+					router.replace({ name: 'appHome' });
+					return;
+				}
 			},
 			children: [
 				{
@@ -60,37 +66,64 @@ const router = createRouter({
 				{
 					path: '/auth',
 					name: 'auth',
-					component: AuthView,
+					beforeEnter: (to: any) => {
+						const userStore = useUserStore();
+						if (!userStore.isAuthenticated || (userStore.hasToverifyEmail && to.name === 'verifyEmail')) return;
+						router.replace({ name: 'home' });
+					},
 					children: [
 						{
-							path: 'register',
-							name: 'register',
-							component: RegisterView,
+							path: '',
+							name: 'sign',
+							component: AuthView,
+							children: [
+								{
+									path: 'register',
+									name: 'register',
+									component: RegisterView,
+								},
+								{
+									path: 'login',
+									name: 'login',
+									component: LoginView,
+								},
+							],
 						},
-						{
-							path: 'login',
-							name: 'login',
-							component: LoginView,
-						},
+
 						{
 							path: 'forget-password',
 							name: 'forgetPassword',
 							component: ForgetPasswordView,
 						},
+						{
+							path: 'verify-email',
+							name: 'verifyEmail',
+							component: VerifyEmailMessage,
+							beforeEnter: () => {
+								const userStore = useUserStore();
+								console.log('beforeEnter verifyEmail', userStore.hasToverifyEmail);
+								if (userStore.hasToverifyEmail) return;
+								router.replace({ name: 'home' });
+							},
+						},
 					],
 				},
 			],
-
-			// component: AppView,
 		},
 		{
 			path: '/',
 			name: 'app',
 			component: AppView,
-			beforeEnter: () => {
+			beforeEnter: async () => {
+				const { loadUser } = useAuth();
+				await loadUser();
 				const userStore = useUserStore();
-				if (userStore.isAuthenticated) return;
-				router.replace({ name: 'home' });
+				if (userStore.isLoggedIn) return;
+				if (userStore.hasToverifyEmail) {
+					router.replace({ name: 'verifyEmail' });
+					return;
+				}
+				router.replace({ name: 'login' });
 			},
 			children: [
 				{

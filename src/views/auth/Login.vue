@@ -28,8 +28,8 @@
 
 	import { useRouter } from 'vue-router';
 	import { createInputValidatorByRegex } from '@/utils/utils';
-import { useAuth } from '@/composition/auth';
-import KInput from '@/components/form/KInput.vue';
+	import { useAuth } from '@/composition/auth';
+	import KInput from '@/components/form/KInput.vue';
 	const { login } = useAuth();
 
 	const form = reactive({
@@ -40,22 +40,32 @@ import KInput from '@/components/form/KInput.vue';
 	const formRef = ref();
 	const rules = reactive({
 		email:createInputValidatorByRegex('يرجى إدخال رقم الهاتف أو البريد الإلكتروني', 'رقم الهاتف أو البريد الإلكتروني غير صحيح', 'login'),
-		password:createInputValidatorByRegex('يرجى إدخال كلمة السّر', 'كلمة المرور غير صحيحة', 'password'),
+		// password:createInputValidatorByRegex('يرجى إدخال كلمة السّر', 'كلمة المرور غير صحيحة', 'password'),
 	});
 	const router = useRouter();
 
 	const submit = () => {
 		if (!formRef) return;
-		formRef.value?.validate((valid:boolean) => {
+		formRef.value?.validate(async (valid:boolean) => {
 			if (valid) {
-				if(login(form.email, form.password)){
+				const {error, success} = await login(form.email, form.password);
+				if(success){
 					ElMessage.success('تم تسجيل الدخول بنجاح');
 					router.replace({ name: 'appHome' });
 				}else{
-					ElMessage.error('يرجى التحقق من بيانات الدخول');
+					if(error==='bad_credentials'){
+						ElMessage.error('يرجى التحقق من بيانات الدخول');
+					}else if(error==='unverified_email'){
+
+						ElMessage.warning({message:'يرجى تاكيد البريد الإلكتروني.'});
+					router.replace({ name: 'verifyEmail' });
+						
+					}else{
+						ElMessage.error('حدث خطأ ما. يرجى المحاولة لاحقا.');
+					}
 				}
 			} else {
-				ElMessage.error('يرجى التحقق من بيانات الدخول');
+				ElMessage.error('يرجى ادخال البيانات');
 			}
 		});
 	};

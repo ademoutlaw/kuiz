@@ -37,7 +37,7 @@
 	import { ElMessage } from 'element-plus';
 	import RegisterForm from './../../components/auth/RegisterForm.vue';
 
-	const accountType = ref<'parent' | 'student' | null>(null);
+	const accountType = ref<'parent' | 'student' | undefined>();
 
 	const step = computed(() => (accountType.value ? 1 : 0));
 
@@ -48,6 +48,8 @@
 
 <style scoped lang="scss">
 	.register-container {
+		overflow: hidden;
+    min-height: calc(100vh - 96px);
 		.register-steper {
 			padding: 10px;
 			display: flex;

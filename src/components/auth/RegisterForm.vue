@@ -22,11 +22,11 @@
 							<el-option value="free" label="تعليم حر" />
 						</el-select>
 					</el-form-item>
-					<SelectLevel :institution="form.institution" v-model="form.level" />
+					<SelectLevel v-model="form.level" />
 				</div>
-				<div class="form-row" v-if="['2', '3', '4'].includes(form.level)">
-					<SelectBranch :level="form.level" v-model="form.branch" />
-					<SelectOptionalSubject :branch="form.branch" v-model="form.optionalSubject" v-if="'4' === form.level" />
+				<div class="form-row" v-if="levelStore.branches.length>1">
+					<SelectBranch v-model="form.branch" />
+					<SelectOptionalSubject v-model="form.optionalSubject" v-if="levelStore.optionalSubjects.length" />
 					<div class="form-col" v-else></div>
 				</div>
 			</template>
@@ -38,7 +38,7 @@
 					label="رقم الهاتف"
 					prop="mobile"
 					required
-					:error="mobileError"
+					:error="formError.mobile"
 				/>
 				<KInput
 					v-model="form.email"
@@ -47,7 +47,7 @@
 					label="(Email) البريد الإلكتروني"
 					prop="email"
 					required
-					:error="emailError"
+					:error="formError.email"
 				/>
 			</div>
 			<div class="form-row">
@@ -95,29 +95,18 @@
 	import SelectLevel from './SelectLevel.vue';
 	import KInput from '../form/KInput.vue';
 	import SelectBranch from './SelectBranch.vue';
+	import SelectOptionalSubject from './SelectOptionalSubject.vue';
 	import { useRouter } from 'vue-router';
 	import { useAuth } from '@/composition/auth';
-	import SelectOptionalSubject from './SelectOptionalSubject.vue';
+	import { useLevelsStore } from '@/stores/levels';
 
-	interface RegisterForm {
-		firstname: string;
-		lastname: string;
-		mobile: string;
-		email: string;
-		password: string;
-		rePassword: string;
-		institution: string;
-		level: string;
-		optionalSubject: string;
-		branch: string;
-	}
-
-	defineProps<{ accountType: 'parent' | 'student' | null }>();
+	const props = defineProps<{ accountType: 'parent' | 'student' | undefined }>();
 
 	const { register } = useAuth();
+	const levelStore = useLevelsStore();
 	const router = useRouter();
-	const emailError = ref('');
-	const mobileError = ref('');
+	// const emailError = ref('');
+	// const mobileError = ref('');
 	const passwordBlured = ref(false);
 	const formHasSubmitted = ref(false);
 	const validationSet = ref(new Set());
@@ -133,14 +122,26 @@
 		level: '',
 		optionalSubject: '',
 		branch: '',
+		role: props.accountType,
 	});
+	const formError = reactive<Partial<RegisterForm>>({
+		mobile: '',
+		email: '',
+		institution: '',
+		level: '',
+		optionalSubject: '',
+		branch: '',
+	});
+	
+	levelStore.loadLevels(form);
 	const formRef = ref<FormInstance>();
 	const password = computed(() => {
+		const pswd = form.password!;
 		const validation = {
-			hasLength: form.password.length >= 8,
-			hasNumber: /[0-9]/.test(form.password),
-			hasLowerCase: /[a-z]/.test(form.password),
-			hasUpperCase: /[A-Z]/.test(form.password),
+			hasLength: pswd.length >= 8,
+			hasNumber: /[0-9]/.test(pswd),
+			hasLowerCase: /[a-z]/.test(pswd),
+			hasUpperCase: /[A-Z]/.test(pswd),
 		};
 		return {
 			...validation,
@@ -204,18 +205,16 @@
 	const submitForm = () => {
 		if (!formRef) return;
 		formHasSubmitted.value = true;
-		formRef.value?.validate(valid => {
+		formRef.value?.validate(async (valid) => {
 			if (valid) {
-				const { success, errors } = register(form);
+				const { success, errors } = await register(form);
 				if (success) {
 					ElMessage.success('تم تسجيل الدخول بنجاح');
-					router.replace({ name: 'login' });
+					router.replace({ name: 'verifyEmail' });
 				} else {
 					for (const error of errors) {
-						if (error.isEmailError) {
-							emailError.value = error.message;
-						} else if (error.isMobileError) {
-							mobileError.value = error.message;
+						if(formError.hasOwnProperty(error.field)){
+							formError[error.field] = error.message;
 						}
 						ElMessage.error(error.message);
 					}
@@ -227,10 +226,10 @@
 	};
 	const onFormValidate = (prop: string, isValid: boolean) => {
 		if(prop==='mobile'){
-			mobileError.value='';
+			formError.mobile = '';
 		}
 		if(prop==='email'){
-			emailError.value='';
+			formError.email = '';
 		}
 		if (isValid) {
 			validationSet.value.delete(prop);

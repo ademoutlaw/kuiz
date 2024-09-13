@@ -18,7 +18,8 @@
 	</div>
 </template>
 <script setup lang="ts">
-	defineProps<{ subject: { id: string; color: string; title: string; quiz: number; progress: number; icon: string; bg: string } }>();
+	const props = defineProps<{ subject: { id: string; color: string; title: string; quiz: number; progress: number; icon: string; bg: string } }>();
+	console.log(props.subject);
 </script>
 <!--  -->
 <style scoped lang="scss">

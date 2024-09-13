@@ -40,9 +40,8 @@
 			position: sticky;
 			top:0;
 			.auth-fixed-side_content{
-
 				position: relative;
-				// flex-shrink: 0;
+				height: 100%;
 				h1 {
 					position: relative;
 					font-family: Inter;

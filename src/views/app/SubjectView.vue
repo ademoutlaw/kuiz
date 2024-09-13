@@ -1,11 +1,11 @@
 <template>
 	<div class="subject-container" >
-		<div class="subject-header-container">
+		<div class="subject-header-container" :style="{'--subject-bg':`url(${formatedSubject.bg})`, '--subject-bg-color':formatedSubject.color}">
 			<div class="subject-header">
 				<div class="subject-icon">
-					<img :src="subjectIcon" alt="icon" />
+					<img :src="formatedSubject.icon" alt="icon" />
 				</div>
-				<h1 class="subject-title">{{ subjectTitle }}</h1>
+				<h1 class="subject-title">{{ formatedSubject.title }}</h1>
 			</div>
 		</div>
 		<div class="subject-chapters-container">
@@ -44,17 +44,27 @@
 	</div>
 </template>
 <script setup lang="ts">
+	import { computed, ref, watch } from 'vue';
 	import { vIntersectionObserver } from '@vueuse/components';
+	import { useUserSubjects } from '@/composition/subject';
+	import { useRoute } from 'vue-router';
+import { ASSETS_BASE_URL } from '@/constants/endpoints';
 
-	import { ref } from 'vue';
-
+	const route = useRoute();
+	const {subject, loadSubject} = useUserSubjects();
 	const itemRefs = ref<any[]>([]);
 	const menuRef = ref<any>(null);
 	const selected = ref(1);
 	const selections = ref<boolean[]>([]);
+
+
 	// let timeout: any = null;
 	let tempSelected = 1;
 	let ignore = true;
+
+	watch(()=>route.fullPath, ()=>{
+		loadSubject(route.params.id as string);
+	},{immediate: true})
 	// function debounceScroll(t:any){
 	// 	if(timeout){
 	// 		clearTimeout(timeout);
@@ -92,6 +102,19 @@
 	const subjectTitle = 'Chimie';
 	const subjectIcon = '/subjects/chimistry.svg';
 
+	const formatedSubject = computed(()=>{
+		const config = subject.value.design_config?JSON.parse(subject.value.design_config):{};
+		return {
+		id: subject.value.id,
+		color: config.backgroundColor,
+		title: subject.value.title,
+		progress: 0,
+		quiz: 75,
+		icon: `${ASSETS_BASE_URL}/${config.icon}`,
+		bg: `${ASSETS_BASE_URL}/${config.background}`,
+		}
+	}) 
+
 	const select = (i: number) => {
 		selected.value = i;
 		tempSelected = i;
@@ -124,8 +147,8 @@
 			background-color: white;
 			padding-bottom: 40px;
 			.subject-header {
-				background: rgba(76, 161, 77, 1);
-				background-image: url(/subject-header.png);
+				background: var(--subject-bg-color);
+				background-image: var(--subject-bg);
 				height: 240px;
 				border-radius: 20px;
 				display: flex;
