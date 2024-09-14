@@ -105,6 +105,10 @@
 				font-size: 16px;
 				font-weight: 500;
 				line-height: 34.06px;
+				transition: background-color 0.2s;
+				&:hover{
+					background-color: #BA68C8;
+				}
 			}
 		}
 		.header-lang-setting {

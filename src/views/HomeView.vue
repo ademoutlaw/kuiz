@@ -12,7 +12,7 @@
 						قل وداعًا للأساليب التقليدية المملة! مع كويز، استمتع بكويزات ديناميكية ومخصصة تتناسب مع كل مادة دراسية.
 					</div>
 					<div class="hero-action">
-						<router-link :to="{name:'register'}">إشترك الأن في كويز</router-link>
+						<router-link :to="{ name: 'register' }">إشترك الأن في كويز</router-link>
 					</div>
 				</div>
 				<div class="hero-img">
@@ -31,48 +31,48 @@
 				<div class="partner-go">
 					<span>كويز</span>
 					<span><Icon icon="carbon:chevron-left" /></span>
-					<template  v-if="level">
+					<template v-if="level">
 						<span>مسارك الدراسي</span>
-						<span class="_circle cursor-pointer"  @click="level = ''"><Icon icon="mdi:chevron-left" /></span>
+						<span class="_circle cursor-pointer" @click="level = ''"><Icon icon="mdi:chevron-left" /></span>
 					</template>
 				</div>
 				<div class="partner-actions-container">
 					<span>اختار مسارك الدراسي :</span>
 					<div class="partner-actions _3-actions" v-if="level === 'primary'">
 						<div class="partner-action-container">
-							<router-link :to="{name:'home'}" class="partner-action">
+							<router-link :to="{ name: 'home' }" class="partner-action">
 								<div class="partner-action-title">السابعة أساسي</div>
 							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<router-link :to="{name:'home'}" class="partner-action">
+							<router-link :to="{ name: 'home' }" class="partner-action">
 								<div class="partner-action-title">الثامنة أساسي</div>
 							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<router-link :to="{name:'home'}" class="partner-action">
+							<router-link :to="{ name: 'home' }" class="partner-action">
 								<div class="partner-action-title">التاسعة أساسي</div>
 							</router-link>
 						</div>
 					</div>
 					<div class="partner-actions _4-actions" v-else-if="level === 'secondary'">
 						<div class="partner-action-container">
-							<router-link :to="{name:'home'}" class="partner-action">
+							<router-link :to="{ name: 'home' }" class="partner-action">
 								<div class="partner-action-title">أولى ثانوي</div>
 							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<router-link :to="{name:'home'}" class="partner-action">
+							<router-link :to="{ name: 'home' }" class="partner-action">
 								<div class="partner-action-title">الثانية ثانوي</div>
 							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<router-link :to="{name:'home'}" class="partner-action">
+							<router-link :to="{ name: 'home' }" class="partner-action">
 								<div class="partner-action-title">الثالثة ثانوي</div>
 							</router-link>
 						</div>
 						<div class="partner-action-container">
-							<router-link :to="{name:'home'}" class="partner-action">
+							<router-link :to="{ name: 'home' }" class="partner-action">
 								<div class="partner-action-title">البكالوريا</div>
 							</router-link>
 						</div>
@@ -137,7 +137,7 @@
 				text-align: right;
 				height: 100%;
 				max-width: 566px;
-    		width: 100%;
+				width: 100%;
 				display: flex;
 				flex-direction: column;
 				.hero-title {
@@ -163,7 +163,7 @@
 							background-repeat: no-repeat;
 							background-position: top right;
 							background-position-y: -33px;
-    					background-size: 160px 100px;
+							background-size: 160px 100px;
 						}
 					}
 					// width: 440px;
@@ -192,7 +192,11 @@
 						line-height: 51.09px;
 						text-align: left;
 						display: block;
-    				width: max-content;
+						width: max-content;
+						transition: background-color 0.2s;
+						&:hover {
+							background-color: #f39d48;
+						}
 					}
 				}
 			}
@@ -214,7 +218,7 @@
 				color: black;
 			}
 			.partner-description {
-				margin-top:16px;
+				margin-top: 16px;
 				font-family: Noto Naskh Arabic;
 				font-size: 26px;
 				font-weight: 700;
@@ -233,8 +237,8 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				gap:8px;
-				._circle{
+				gap: 8px;
+				._circle {
 					display: inline-block;
 					width: 48px;
 					height: 48px;
@@ -276,17 +280,17 @@
 							flex-direction: column;
 							align-items: center;
 							padding: 13px 0 25px;
-    					gap: 16px;
+							gap: 16px;
 							justify-content: space-between;
 							.partner-action-icon {
-								width:48px;
-								height:47px;
+								width: 48px;
+								height: 47px;
 								text-align: center;
 							}
 							.partner-action-title {
 								font-size: 26px;
 								font-weight: 700;
-								line-height:44.31px;
+								line-height: 44.31px;
 								text-align: center;
 							}
 						}
@@ -294,7 +298,7 @@
 					&._3-actions {
 						// gap: 94px;
 						margin-bottom: 38px;
-    				// margin-right: -109px;
+						// margin-right: -109px;
 						.partner-action-container {
 							height: 114px;
 							width: 316px;
