@@ -64,21 +64,21 @@
 	.about-container {
 		padding: 0 40px 40px;
 		.about-header {
-			color: rgba(77, 77, 77, 1);
+			color: #4d4d4d;
 			position: relative;
 			padding: 46px 0px;
 			h1 {
 				text-align: center;
 				font-family: Noto Naskh Arabic;
-				font-size: 50px;
-				font-weight: 700;
-				line-height: 85.15px;
-				position: relative;
-			}
-			p {
 				font-size: 40px;
 				font-weight: 700;
 				line-height: 68.12px;
+				position: relative;
+			}
+			p {
+				font-size: 26px;
+				font-weight: 700;
+				line-height: 44.28px;
 				text-align: right;
 				margin-top: 26px;
 				position: relative;
@@ -91,12 +91,13 @@
 				margin-bottom: 32px;
 				align-items: center;
 				.about-item-info {
-					padding: 0 56px;
+					padding: 0 24px 0 0;
 					font-family: Noto Naskh Arabic;
-					font-size: 40px;
+					font-size: 30px;
 					font-weight: 500;
-					line-height: 68.12px;
+					line-height: 51.09px;
 					text-align: right;
+					max-width: 850px;
 				}
 			}
 		}
