@@ -23,15 +23,15 @@
 			h1 {
 				text-align: center;
 				font-family: Noto Naskh Arabic;
-				font-size: 50px;
+				font-size: 40px;
 				font-weight: 700;
-				line-height: 85.15px;
+				line-height: 68.12px;
 				position: relative;
 			}
 			p {
-				font-size: 30px;
+				font-size: 26px;
 				font-weight: 700;
-				line-height: 51.09px;
+				line-height: 44.28px;
 				text-align: center;
 				margin-top: 26px;
 				position: relative;
@@ -39,10 +39,11 @@
 		}
 		.guid-video-player {
 			margin: -60px auto 0;
-			width: 500px;
-			height: 375px;
+			width: 400px;
+			height: 300px;
 			background-image: url(@/assets/video-player.svg);
 			position: relative;
+			background-size: cover;
 		}
 	}
 </style>
