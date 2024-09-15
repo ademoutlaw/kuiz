@@ -87,9 +87,9 @@
 			margin-bottom: 32px;
 			h1 {
 				font-family: Noto Naskh Arabic;
-				font-size: 30px;
+				font-size: 26px;
 				font-weight: 400;
-				line-height: 51.09px;
+				line-height: 44.28px;
 				text-align: right;
 				color: rgba(77, 77, 77, 1);
 			}

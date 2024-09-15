@@ -91,13 +91,13 @@
 <script setup lang="ts">
 	import { computed, reactive, ref } from 'vue';
 	import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
-	import { createFormControlValidator, createInputValidatorByRegex, createRequiredInputValidator } from '../../utils/utils';
-	import SelectLevel from './SelectLevel.vue';
-	import KInput from '../form/KInput.vue';
-	import SelectBranch from './SelectBranch.vue';
+	import { createFormControlValidator, createInputValidatorByRegex, createRequiredInputValidator } from '@/utils/utils';
+	import SelectLevel from '@/components/common/SelectLevel.vue';
+	import KInput from '@/components/common/form/KInput.vue';
+	import SelectBranch from '@/components/common/SelectBranch.vue';
 	import { useRouter } from 'vue-router';
 	import { useAuth } from '@/composition/auth';
-	import SelectOptionalSubject from './SelectOptionalSubject.vue';
+	import SelectOptionalSubject from '@/components/common/SelectOptionalSubject.vue';
 
 	interface RegisterForm {
 		firstname: string;

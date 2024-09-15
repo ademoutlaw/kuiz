@@ -5,10 +5,25 @@
 		<div class="login-form-container">
 			<el-form label-position="top" label-width="auto" :rules="rules" ref="formRef" :model="form" @submit.prevent="submit">
 				<div class="form-row">
-					<KInput v-model="form.email" id="email" placeholder="رقم الهاتف أو البريد الإلكتروني" label="رقم الهاتف أو البريد الإلكتروني" prop="email" required />
+					<KInput
+						v-model="form.email"
+						id="email"
+						placeholder="رقم الهاتف أو البريد الإلكتروني"
+						label="رقم الهاتف أو البريد الإلكتروني"
+						prop="email"
+						required
+					/>
 				</div>
 				<div class="form-row">
-					<KInput label="كلمة السّر" prop="password" required v-model="form.password" id="password" type="password" placeholder="كلمة السّر"/>
+					<KInput
+						label="كلمة السّر"
+						prop="password"
+						required
+						v-model="form.password"
+						id="password"
+						type="password"
+						placeholder="كلمة السّر"
+					/>
 				</div>
 				<div>
 					<router-link :to="{ name: 'forgetPassword' }">نسيت كلمة السر؟</router-link>
@@ -28,8 +43,8 @@
 
 	import { useRouter } from 'vue-router';
 	import { createInputValidatorByRegex } from '@/utils/utils';
-import { useAuth } from '@/composition/auth';
-import KInput from '@/components/form/KInput.vue';
+	import { useAuth } from '@/composition/auth';
+	import KInput from '@/components/common/form/KInput.vue';
 	const { login } = useAuth();
 
 	const form = reactive({
@@ -39,19 +54,23 @@ import KInput from '@/components/form/KInput.vue';
 
 	const formRef = ref();
 	const rules = reactive({
-		email:createInputValidatorByRegex('يرجى إدخال رقم الهاتف أو البريد الإلكتروني', 'رقم الهاتف أو البريد الإلكتروني غير صحيح', 'login'),
-		password:createInputValidatorByRegex('يرجى إدخال كلمة السّر', 'كلمة المرور غير صحيحة', 'password'),
+		email: createInputValidatorByRegex(
+			'يرجى إدخال رقم الهاتف أو البريد الإلكتروني',
+			'رقم الهاتف أو البريد الإلكتروني غير صحيح',
+			'login'
+		),
+		password: createInputValidatorByRegex('يرجى إدخال كلمة السّر', 'كلمة المرور غير صحيحة', 'password'),
 	});
 	const router = useRouter();
 
 	const submit = () => {
 		if (!formRef) return;
-		formRef.value?.validate((valid:boolean) => {
+		formRef.value?.validate((valid: boolean) => {
 			if (valid) {
-				if(login(form.email, form.password)){
+				if (login(form.email, form.password)) {
 					ElMessage.success('تم تسجيل الدخول بنجاح');
 					router.replace({ name: 'appHome' });
-				}else{
+				} else {
 					ElMessage.error('يرجى التحقق من بيانات الدخول');
 				}
 			} else {

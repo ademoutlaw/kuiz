@@ -1,8 +1,8 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import ElementPlus from 'element-plus';
 import { Icon } from '@iconify/vue';
 import 'element-plus/dist/index.css';
+import ElementPlus from 'element-plus';
 
 import './style.scss';
 import App from './App.vue';

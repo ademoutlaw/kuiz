@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-	import KSelect from '@/components/form/KSelect.vue';
+	import KSelect from '@/components/common/form/KSelect.vue';
 	import { computed } from 'vue';
 	const level = defineModel();
 	const prop = defineProps<{ institution: string }>();

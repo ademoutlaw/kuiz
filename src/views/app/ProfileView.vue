@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 	import { reactive, ref } from 'vue';
-	import SelectLevel from '@/components/auth/SelectLevel.vue';
+	import SelectLevel from '@/components/common/SelectLevel.vue';
 	import PasswordFormModal from '@/components/app/profile/PasswordFormModal.vue';
 import ChangePictureModal from '@/components/app/profile/ChangePictureModal.vue';
 	const _form = {

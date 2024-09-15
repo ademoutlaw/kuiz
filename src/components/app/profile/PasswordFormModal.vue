@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 const show = defineModel();
-import KInput from '@/components/form/KInput.vue';
+import KInput from '@/components/common/form/KInput.vue';
 </script>
 
 <style lang="scss">

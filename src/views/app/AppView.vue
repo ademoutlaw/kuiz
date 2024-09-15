@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="flex items-stretch">
-			<SideBar class="w-64" />
+			<SideBar />
 			<div class="w-full">
 				<Header />
 				<div class="px-8 pt-6">

@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 	import { computed } from 'vue';
-	import KSelect from '@/components/form/KSelect.vue';
+	import KSelect from '@/components/common/form/KSelect.vue';
 	const subject = defineModel();
 	const prop = defineProps<{ branch: string }>();
 

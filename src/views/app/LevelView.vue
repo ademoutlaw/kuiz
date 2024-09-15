@@ -1,6 +1,6 @@
 <template>
 	<div class="level-container">
-		<h1>النشاطات الأخيرة</h1>
+		<h1>اختر المادة</h1>
 		<SubjectsList />
 	</div>
 </template>
@@ -12,9 +12,9 @@
 	.level-container {
 		h1 {
 			font-family: Noto Naskh Arabic;
-			font-size: 30px;
+			font-size: 26px;
 			font-weight: 400;
-			line-height: 51.09px;
+			line-height: 44.28px;
 			text-align: right;
 			color: rgba(77, 77, 77, 1);
 		}
