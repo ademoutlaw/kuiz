@@ -1,5 +1,5 @@
 <template>
-	<el-dialog v-model="show" show-close class="change-picture-modal rounded-xl">
+	<el-dialog v-model="show" show-close class="change-picture-modal rounded-[40px]">
 		<div class="change-picture-modal-container">
 			<label class="picture-uploader" id="picture-uploader-label" for="picture-uploader-input">
 				<div v-if="imgSrc">
@@ -10,9 +10,9 @@
 			<input type="file" class="absolute w-0 opacity-0" id="picture-uploader-input" @change="selectPicture" />
 			<div class="form-row">
 				<div class="form-footer">
-						<button class="form-btn" @click="save">حفظ</button>
-						<button class="form-back-btn" @click="show=false" type="button">رجوع</button>
-					</div>
+					<button class="form-btn" @click="save">حفظ</button>
+					<button class="form-back-btn" @click="show = false" type="button">رجوع</button>
+				</div>
 			</div>
 		</div>
 	</el-dialog>
@@ -24,7 +24,7 @@
 
 	const show = defineModel();
 	const imgSrc = ref<string | null>(null);
-	let file: File|null = null;
+	let file: File | null = null;
 	const selectPicture = (evt: any) => {
 		file = evt.target.files[0] as File;
 		if (!file) return;
@@ -34,17 +34,17 @@
 		};
 		fileReader.readAsDataURL(file);
 	};
-	const save = ()=>{
-		if(!file){
+	const save = () => {
+		if (!file) {
 			ElMessage.error('Oops, this is a error message.');
 			return;
 		}
-		
+
 		show.value = false;
 		file = null;
 		imgSrc.value = null;
 		ElMessage.success('Yeaayy, nice Picture .');
-	}
+	};
 </script>
 
 <style lang="scss">
@@ -91,27 +91,27 @@
 			}
 			.form-row {
 				margin: 20px 0;
-				
-				.form-footer{
-					margin:0 20px;
-					
-		button{
-			font-family: Noto Naskh Arabic;
-			font-size: 20px;
-			font-weight: 400;
-			line-height: 34.06px;
-			text-align: center;
-		}
-		.form-back-btn{
-			margin-right:20px;
-		font-family: Noto Naskh Arabic;
-		font-size: 24px;
-		font-weight: 500;
-		line-height: 40.87px;
-		text-align: center;
-		color: #808080;
-		}
-	}
+
+				.form-footer {
+					margin: 0 20px;
+
+					button {
+						font-family: Noto Naskh Arabic;
+						font-size: 20px;
+						font-weight: 400;
+						line-height: 34.06px;
+						text-align: center;
+					}
+					.form-back-btn {
+						margin-right: 20px;
+						font-family: Noto Naskh Arabic;
+						font-size: 24px;
+						font-weight: 500;
+						line-height: 40.87px;
+						text-align: center;
+						color: #808080;
+					}
+				}
 			}
 		}
 	}

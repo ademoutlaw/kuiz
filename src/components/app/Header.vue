@@ -1,5 +1,5 @@
 <template>
-	<header class="flex items-center justify-between p-8">
+	<header class="flex items-center justify-between px-8 py-4">
 		<div class="header-head">
 			<h2>مرحبًا بك<span>👋</span></h2>
 			<h3>لنبدأ اليوم بكويز جديد</h3>

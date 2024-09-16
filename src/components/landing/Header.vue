@@ -41,8 +41,13 @@
 			font-weight: 500;
 			line-height: 40.87px;
 			color: rgba(77, 77, 77, 1);
-			.router-link-active.router-link-exact-active {
+			li:hover {
 				color: rgba(209, 69, 202, 1);
+			}
+			&:not(:hover) {
+				.router-link-active.router-link-exact-active {
+					color: rgba(209, 69, 202, 1);
+				}
 			}
 		}
 	}

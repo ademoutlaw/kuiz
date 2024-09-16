@@ -1,12 +1,21 @@
 <template>
-	<KSelect :options="options" id="optionalSubject" placeholder="المادة الاختيارية" v-model="subject" prop="optionalSubject" label="المادة الاختيارية" required />
+	<KSelect
+		:options="options"
+		id="optionalSubject"
+		placeholder="المادة الاختيارية"
+		v-model="subject"
+		prop="optionalSubject"
+		label="المادة الاختيارية"
+		:required="!preset"
+		:preset="preset"
+	/>
 </template>
 
 <script setup lang="ts">
 	import { computed } from 'vue';
 	import KSelect from '@/components/common/form/KSelect.vue';
 	const subject = defineModel();
-	const prop = defineProps<{ branch: string }>();
+	const prop = defineProps<{ branch: string; preset?: boolean }>();
 
 	const communOptions = [
 		{
@@ -75,7 +84,6 @@
 	const options = computed(() => {
 		return optionsByBranches[prop.branch] || [...communOptions];
 	});
-
 </script>
 
 <style scoped></style>

@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-	import Grid from './../../components/landing/Grid.vue';
+	import Grid from '@/components/landing/Grid.vue';
 </script>
 
 <style lang="scss">
@@ -36,19 +36,19 @@
 		.auth-fixed-side {
 			height: 100vh;
 			background: rgba(128, 0, 128, 1);
-			width: 656px;
+			width: 618px;
 			position: sticky;
-			top:0;
-			.auth-fixed-side_content{
-
+			top: 0;
+			flex-shrink: 0;
+			.auth-fixed-side_content {
 				position: relative;
 				// flex-shrink: 0;
 				h1 {
 					position: relative;
 					font-family: Inter;
-					font-size: 150px;
+					font-size: 140px;
 					font-weight: 700;
-					line-height: 181.53px;
+					line-height: 169.43px;
 					text-align: center;
 					display: flex;
 					flex-direction: column;
@@ -76,24 +76,23 @@
 		}
 		.auth-content {
 			width: 100%;
-			padding: 0 50px;
 			min-height: 100vh;
 			// overflow-y: scroll;
+			padding: 32px;
 			.auth-header {
-				padding: 45px 0px 16px;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
 				img {
-					width: 90px;
+					width: 81px;
 				}
 				span {
 					display: flex;
 					align-items: center;
 					font-family: Noto Naskh Arabic;
-					font-size: 20px;
+					font-size: 18px;
 					font-weight: 500;
-					line-height: 34.06px;
+					line-height: 30.65px;
 					text-align: left;
 					color: #800080;
 				}

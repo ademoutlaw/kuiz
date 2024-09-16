@@ -1,8 +1,8 @@
 <template>
-	<section v-if="resetPasswordData.step === 1">
+	<section class="otp-container" v-if="resetPasswordData.step === 1">
 		<h1>يرجى إدخال الرمز المكون من 6 أرقام</h1>
 		<div>
-			<p>ابحث عن رمز التحقق في البريد الإلكتروني {{ resetPasswordData.email }}</p>
+			<p>ابحث عن رمز التحقق في البريد الإلكتروني {{ resetPasswordData.email || 'w**@gmail.com' }}</p>
 		</div>
 		<div class="otp-inputs-container">
 			<div class="otp-inputs">
@@ -18,13 +18,14 @@
 		<div>
 			<button class="btn-form" @click="submit" ref="btnRef" id="otp-submit" tabindex="6">تجديد كلمة السر</button>
 		</div>
+		<button tabindex="8" class="btn-link" id="back-btn" @click="back">رجوع</button>
 	</section>
 </template>
 
 <script setup lang="ts">
 	import { ref } from 'vue';
 	import { useAuth } from '@/composition/auth';
-import { ElMessage } from 'element-plus';
+	import { ElMessage } from 'element-plus';
 
 	const { resetPasswordData, confirmOtp } = useAuth();
 
@@ -93,19 +94,56 @@ import { ElMessage } from 'element-plus';
 			ElMessage.success(success!);
 		}
 	};
+	const back = () => {
+		resetPasswordData.step = 0;
+		otp1.value = '';
+		otp2.value = '';
+		otp3.value = '';
+		otp4.value = '';
+		otp5.value = '';
+		otp6.value = '';
+	};
 </script>
 
 <style scoped lang="scss">
-	.forget-pass-container {
-		section {
-			h1 {
-				margin-bottom: 8px;
+	.otp-container {
+		p {
+			text-align: center !important;
+		}
+		.btn-link {
+			font-family: Noto Naskh Arabic;
+			font-size: 16px;
+			font-weight: 500;
+			line-height: 27.25px;
+			text-align: center;
+			color: #808080;
+			margin: 24px auto 0;
+			display: block;
+		}
+		.otp-inputs-container {
+			width: max-content;
+			margin: auto;
+			text-align: right;
+			.otp-inputs {
+				display: flex;
+				justify-content: center;
+				gap: 20px;
+				input {
+					width: 47px;
+					height: 47px;
+					padding: 0 19px 0 0;
+					border-radius: 15px;
+					border: 1px solid rgba(217, 217, 217, 1);
+					&:hover {
+						border-color: black;
+					}
+					&:focus {
+						border-color: #800080;
+						outline: none;
+					}
+				}
 			}
 			.btn-link {
-				font-family: Noto Naskh Arabic;
-				font-size: 24px;
-				font-weight: 500;
-				line-height: 40.87px;
 				text-align: right;
 				color: #800080;
 				margin: 24px 0 32px;

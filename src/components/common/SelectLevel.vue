@@ -1,12 +1,21 @@
 <template>
-	<KSelect :options="options" id="level" placeholder="المستوى الدراسي" v-model="level" prop="level" label="المستوى الدراسي" required />
+	<KSelect
+		:options="options"
+		id="level"
+		placeholder="المستوى الدراسي"
+		v-model="level"
+		prop="level"
+		label="المستوى الدراسي"
+		:required="!preset"
+		:preset="preset"
+	/>
 </template>
 
 <script setup lang="ts">
 	import KSelect from '@/components/common/form/KSelect.vue';
 	import { computed } from 'vue';
 	const level = defineModel();
-	const prop = defineProps<{ institution: string }>();
+	const prop = defineProps<{ institution: string; preset?: boolean }>();
 
 	const options = computed(() => {
 		return prop.institution === 'free'

@@ -1,7 +1,6 @@
 <template>
 	<div class="login-container">
 		<h1>سجّل دخولك إلى Kuiz</h1>
-
 		<div class="login-form-container">
 			<el-form label-position="top" label-width="auto" :rules="rules" ref="formRef" :model="form" @submit.prevent="submit">
 				<div class="form-row">
@@ -83,16 +82,17 @@
 <style scoped lang="scss">
 	.login-container {
 		width: 506px;
-		margin: 4px auto;
+		margin: 62px auto 0;
 		h1 {
 			text-align: center;
 			font-family: Inter;
-			font-size: 40px;
+			font-size: 30px;
 			font-weight: 700;
-			line-height: 48.41px;
+			line-height: 36.31px;
 			margin: 7px 0 40px;
 		}
 		.login-form-container {
+			font-family: Noto Naskh Arabic;
 			.form-action {
 				text-align: center;
 				button {
@@ -101,14 +101,13 @@
 					border-radius: 15px;
 					border: 0px 0px 2px 0px;
 					background: rgba(239, 129, 20, 1);
-					font-family: Noto Naskh Arabic;
-					font-size: 18px;
+					font-size: 16px;
 					font-weight: 700;
-					line-height: 30.65px;
+					line-height: 27.25px;
 					color: #fff;
+					margin-top: 32px;
 				}
 				div {
-					font-family: Noto Naskh Arabic;
 					font-size: 20px;
 					font-weight: 400;
 					line-height: 34.06px;

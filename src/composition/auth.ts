@@ -8,11 +8,24 @@ const resetPasswordData = reactive({
 });
 
 export const useAuth = () => {
-	const { setUser } = useUserStore();
-	const requestResetPassword = (email: string) => {
-		console.log(email);
-		resetPasswordData.step = 1;
-		resetPasswordData.email = email;
+	const { setUser, user: currentUser } = useUserStore();
+	const requestResetPassword = async (email: string) => {
+		const usersStorage = localStorage.getItem('allUsers');
+		const users = JSON.parse(usersStorage!);
+		for (const user of users) {
+			if (user.email === email) {
+				resetPasswordData.step = 1;
+				resetPasswordData.email = email;
+				return {
+					success: true,
+					errors: [],
+				};
+			}
+		}
+		return {
+			success: false,
+			errors: ['لا يوجد حساب مسجل بهذا البريد'],
+		};
 	};
 
 	const confirmOtp = async (otp: string) => {
@@ -32,8 +45,47 @@ export const useAuth = () => {
 		};
 	};
 
-	const changePassword = (password: string) => {
-		console.log(password);
+	const changePassword = async ({ currentPassword, newPassword }: { currentPassword: string; newPassword: string }) => {
+		if (currentUser.password === currentPassword) {
+			const usersStorage = localStorage.getItem('allUsers');
+			const users = JSON.parse(usersStorage!);
+			for (const user of users) {
+				if (user.email === currentUser.email) {
+					user.password = newPassword;
+					localStorage.setItem('allUsers', JSON.stringify(users));
+					return {
+						success: true,
+						errors: [],
+					};
+				}
+			}
+			return {
+				success: false,
+				errors: ['error'],
+			};
+		}
+		return {
+			success: false,
+			errors: ['wrong password'],
+		};
+	};
+	const resetPassword = async (password: string) => {
+		const usersStorage = localStorage.getItem('allUsers');
+		const users = JSON.parse(usersStorage!);
+		for (const user of users) {
+			if (user.email === resetPasswordData.email) {
+				user.password = password;
+				localStorage.setItem('allUsers', JSON.stringify(users));
+				return {
+					success: true,
+					errors: [],
+				};
+			}
+		}
+		return {
+			success: false,
+			errors: ['error'],
+		};
 	};
 
 	const login = (email: string, password: string) => {
@@ -111,6 +163,7 @@ export const useAuth = () => {
 		requestResetPassword,
 		confirmOtp,
 		changePassword,
+		resetPassword,
 		login,
 		register,
 	};

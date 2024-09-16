@@ -1,13 +1,22 @@
 <template>
-	<KSelect :options="options" id="branch" placeholder="شعبة" v-model="branch" prop="branch" label="شعبة" required />
+	<KSelect
+		:options="options"
+		id="branch"
+		placeholder="شعبة"
+		v-model="branch"
+		prop="branch"
+		label="شعبة"
+		:required="!preset"
+		:preset="preset"
+	/>
 </template>
 
 <script setup lang="ts">
 	import { computed } from 'vue';
 	import KSelect from '@/components/common/form/KSelect.vue';
 	const branch = defineModel();
-	const prop = defineProps<{ level: string }>();
-	
+	const prop = defineProps<{ level: string; preset?: boolean }>();
+
 	const options = computed(() => {
 		return (
 			{

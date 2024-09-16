@@ -40,7 +40,7 @@
 					</RouterLink>
 				</li>
 				<li>
-					<RouterLink :to="{ name: 'about' }"
+					<RouterLink :to="{ name: 'help' }"
 						><div class="item-container">
 							<img src="@/assets/headset-help.svg" alt="" />
 							<span>مساعدة</span>
@@ -93,8 +93,8 @@
 						line-height: 27.25px;
 						text-align: center;
 						color: white;
-						img{
-							width:24px;
+						img {
+							width: 24px;
 							margin-bottom: 4px;
 						}
 					}

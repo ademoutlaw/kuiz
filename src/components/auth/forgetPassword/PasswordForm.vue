@@ -3,27 +3,28 @@
 		<h1>تجديد كلمة السّر</h1>
 		<el-form label-position="top" :model="form" ref="formRef" :rules="rules" @submit.prevent="submit">
 			<div class="form-row">
-				<el-form-item label="كلمة السّر" prop="password">
-					<el-input v-model="form.password" id="password_form_password_input" type="password" placeholder="كلمة السّر" />
-				</el-form-item>
+				<KInput
+					label="كلمة السّر"
+					prop="password"
+					v-model="form.password"
+					id="password_form_password_input"
+					type="password"
+					placeholder="كلمة السّر"
+					class="mb-2"
+				/>
 			</div>
-			<div class="password-checker">
-				<div class="password-status">
-					<div :class="{ 'is-valid': password.hasLength }">8 أحرف أو أكثر</div>
-					<div :class="{ 'is-valid': password.hasNumber }">1رقم</div>
-					<div :class="{ 'is-valid': password.hasLowerCase }">1 Minuscule</div>
-					<div :class="{ 'is-valid': password.hasUpperCase }">1 Majuscule</div>
-				</div>
-			</div>
+			<PasswordCheker :password="form.password" :blured="passwordBlured" v-model="passwordValid" />
+
 			<div class="form-row">
-				<el-form-item label="تأكيد كلمة السّر" prop="rePassword">
-					<el-input
-						v-model="form.rePassword"
-						type="password"
-						id="password_form_rePassword_input"
-						placeholder="تأكيد كلمة السّر"
-					/>
-				</el-form-item>
+				<KInput
+					label="تأكيد كلمة السّر"
+					prop="rePassword"
+					v-model="form.rePassword"
+					type="password"
+					id="password_form_rePassword_input"
+					placeholder="تأكيد كلمة السّر"
+					class="mt-6 mb-8"
+				/>
 			</div>
 			<div>
 				<button class="btn-form" type="submit" id="password_form_submit_btn">تجديد كلمة السر</button>
@@ -33,53 +34,52 @@
 </template>
 
 <script setup lang="ts">
-	import { FormInstance, FormRules } from 'element-plus';
-	import { computed, reactive, ref } from 'vue';
+	import { ElMessage, FormInstance, FormRules } from 'element-plus';
+	import { reactive, ref } from 'vue';
 	import { useAuth } from '@/composition/auth';
+	import KInput from '@/components/common/form/KInput.vue';
+	import PasswordCheker from '@/components/common/PasswordCheker.vue';
+	import { useRouter } from 'vue-router';
 
-	const { resetPasswordData, changePassword } = useAuth();
+	const router = useRouter();
+	const { resetPasswordData, resetPassword } = useAuth();
 	const formRef = ref<FormInstance>();
+	const passwordValid = ref(false);
 	const form = reactive({
 		password: '',
 		rePassword: '',
 	});
-	const password = computed(() => {
-		const validation = {
-			hasLength: form.password.length >= 8,
-			hasNumber: /[0-9]/.test(form.password),
-			hasLowerCase: /[a-z]/.test(form.password),
-			hasUpperCase: /[A-Z]/.test(form.password),
-		};
-		return {
-			...validation,
-			isValid: validation.hasLength && validation.hasNumber && validation.hasLowerCase && validation.hasUpperCase,
-		};
-	});
 
-	let passwordBlured = false;
+	const passwordBlured = ref(false);
 	let rePasswordBlured = false;
 
 	const validatePassword = (value: string) => {
-		if (!passwordBlured) return;
-		if (!value || !value.length) return 'required';
-		if (!password.value.isValid) return '';
+		if (!passwordBlured.value) return;
+		if (!value || !value.length) return '';
+		if (!passwordValid.value) return '';
 		formRef.value?.validateField('rePassword');
 	};
 	const validateRepassword = (value: string) => {
 		if (!rePasswordBlured) return;
-		if (!value || !value.length) return 'required';
-		if (value !== form.password) return 'not matches';
+		if (!value || !value.length) return 'يرجى تأكيد كلمة السّر';
+		if (value !== form.password) return 'يجب عليك إدخال نفس كلمة السّر';
 	};
 	const submit = () => {
-		passwordBlured = true;
+		passwordBlured.value = true;
 		rePasswordBlured = true;
 		if (!formRef) return;
-		formRef.value?.validate(valid => {
+		formRef.value?.validate(async valid => {
 			if (valid) {
 				console.log('submit!');
-				changePassword(form.password);
+				const { errors, success } = await resetPassword(form.password);
+				if (success) {
+					ElMessage.success('تمت العملية بنجاح');
+					router.replace({ name: 'login' });
+				} else {
+					ElMessage.error(errors[0]);
+				}
 			} else {
-				console.log('error submit!');
+				ElMessage.error('يرجى التحقق');
 			}
 		});
 	};
@@ -87,7 +87,7 @@
 		password: [
 			{
 				validator: (_rule: any, value: any, callback: any) => {
-					passwordBlured = true;
+					passwordBlured.value = true;
 					callback(validatePassword(value));
 				},
 				trigger: 'blur',
@@ -118,34 +118,7 @@
 </script>
 
 <style scoped lang="scss">
-	.password-checker {
-		span {
-			font-family: Noto Naskh Arabic;
-			font-size: 14px;
-			font-weight: 400;
-			line-height: 23.84px;
-			display: block;
-			text-align: center;
-			padding: 8px;
-		}
-		.password-status {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			gap: 6px;
-			div {
-				padding: 10px 15px 10px 15px;
-				border-radius: 50px;
-				background: rgba(250, 250, 250, 1);
-				font-family: Noto Naskh Arabic;
-				font-size: 14px;
-				font-weight: 400;
-				line-height: 23.84px;
-				text-align: left;
-			}
-			.is-valid {
-				background: green;
-			}
-		}
+	section {
+		padding: 0 78px;
 	}
 </style>

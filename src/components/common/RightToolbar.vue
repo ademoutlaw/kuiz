@@ -3,7 +3,7 @@
 		<template v-if="guest">
 			<router-link :to="{ name: 'login' }" class="right-toolbar__login-btn">تسجيل دخول</router-link>
 			<router-link :to="{ name: 'register' }" class="right-toolbar__register-btn">اشترك الان</router-link>
-			<div class="header-lang-setting" @click="loggedIn = !loggedIn">
+			<div class="header-lang-setting" @click="loggedIn = !loggedIn" v-if="!noLangSetter">
 				<div class="header-lang-flag"></div>
 				<div class="header-lang">عربية</div>
 			</div>
@@ -16,13 +16,13 @@
 				<img src="@/assets/bell.svg" alt="notif" />
 			</div>
 			<div>
-				<el-dropdown trigger="click" class="custom_el-dropdown">
+				<el-dropdown trigger="click">
 					<span class="el-dropdown-link">
 						<div class="avatar">{{ firstChar }}</div>
 						<el-icon class="el-icon--right"><arrow-down /></el-icon>
 					</span>
 					<template #dropdown>
-						<el-dropdown-menu class="custom_el-dropdown-menu">
+						<el-dropdown-menu class="k-dropdown-menu">
 							<el-dropdown-item @click="goToProfile">
 								<div class="text-2xl pl-2">
 									<Icon icon="iconamoon:profile-light" />
@@ -50,7 +50,7 @@
 	import { useUserStore } from '@/stores/user';
 	import { computed, ref } from 'vue';
 
-	const props = defineProps<{ guestPage?: boolean }>();
+	const props = defineProps<{ guestPage?: boolean; noLangSetter?: boolean }>();
 
 	const loggedIn = ref(false);
 	const guest = computed(() => props.guestPage && !loggedIn.value);
@@ -158,20 +158,6 @@
 			font-size: 14px;
 			font-weight: 400;
 			line-height: 64px;
-		}
-	}
-</style>
-<style lang="scss">
-	.custom_el-dropdown-menu {
-		padding: 0;
-		overflow: hidden;
-		--el-dropdown-menuItem-hover-fill: #e6e6e6;
-		--el-dropdown-menuItem-hover-color: #666666;
-		--el-text-color-regular: #666666;
-		--el-border-radius-base: 5px;
-		--el-font-size-base: 16px;
-		.el-dropdown-menu__item {
-			padding: 7px 12px;
 		}
 	}
 </style>

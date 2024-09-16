@@ -16,6 +16,7 @@ import ContentView from '@/views/ContentView.vue';
 import ProgressView from '@/views/app/ProgressView.vue';
 import { useUserStore } from '@/stores/user';
 import ProfileView from '@/views/app/ProfileView.vue';
+import HelpView from '@/views/app/HelpView.vue';
 
 const router = createRouter({
 	// history: createWebHistory(process.env.BASE_URL),
@@ -60,22 +61,27 @@ const router = createRouter({
 				{
 					path: '/auth',
 					name: 'auth',
-					component: AuthView,
 					children: [
-						{
-							path: 'register',
-							name: 'register',
-							component: RegisterView,
-						},
-						{
-							path: 'login',
-							name: 'login',
-							component: LoginView,
-						},
 						{
 							path: 'forget-password',
 							name: 'forgetPassword',
 							component: ForgetPasswordView,
+						},
+						{
+							path: '/',
+							component: AuthView,
+							children: [
+								{
+									path: 'register',
+									name: 'register',
+									component: RegisterView,
+								},
+								{
+									path: 'login',
+									name: 'login',
+									component: LoginView,
+								},
+							],
 						},
 					],
 				},
@@ -123,6 +129,11 @@ const router = createRouter({
 					path: 'profile',
 					name: 'profile',
 					component: ProfileView,
+				},
+				{
+					path: 'help',
+					name: 'help',
+					component: HelpView,
 				},
 			],
 		},

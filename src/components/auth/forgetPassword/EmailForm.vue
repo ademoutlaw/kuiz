@@ -3,9 +3,14 @@
 		<h1>نسيت كلمة السر؟</h1>
 		<el-form label-position="top" :model="form" ref="formRef" :rules="rules" @submit.prevent="submit">
 			<div class="form-row">
-				<el-form-item label="البريد الإلكتروني" prop="email">
-					<el-input v-model="form.email" id="email_form_input" placeholder="البريد الإلكتروني" />
-				</el-form-item>
+				<KInput
+					label="البريد الإلكتروني"
+					prop="email"
+					v-model="form.email"
+					id="email_form_input"
+					placeholder="البريد الإلكتروني"
+					class="mb-2"
+				/>
 			</div>
 			<div>
 				<p>سنرسل رمز التحقق إلى هذا البريد الإلكتروني إذا كان هناك حساب Kuiz موجود يتطابق مع هذه المعلومات.</p>
@@ -19,9 +24,10 @@
 </template>
 
 <script setup lang="ts">
-	import { FormInstance, FormRules } from 'element-plus';
+	import { ElMessage, FormInstance, FormRules } from 'element-plus';
 	import { reactive, ref } from 'vue';
 	import { useAuth } from '@/composition/auth';
+	import KInput from '@/components/common/form/KInput.vue';
 	const { resetPasswordData, requestResetPassword } = useAuth();
 
 	let blured = false;
@@ -54,12 +60,19 @@
 	const submit = () => {
 		blured = true;
 		if (!formRef) return;
-		formRef.value?.validate(valid => {
+		formRef.value?.validate(async valid => {
 			if (valid) {
 				console.log('submit!');
-				requestResetPassword(form.email);
+				const { errors, success } = await requestResetPassword(form.email);
+				if (success) {
+					ElMessage.success('تمت العملية بنجاح');
+				} else {
+					for (const error of errors) {
+						ElMessage.error(error);
+					}
+				}
 			} else {
-				console.log('error submit!');
+				ElMessage.error('يرجى التحقق');
 			}
 		});
 	};
@@ -70,9 +83,9 @@
 		margin-top: 24px;
 		display: inline-block;
 		font-family: Noto Naskh Arabic;
-		font-size: 24px;
+		font-size: 16px;
 		font-weight: 500;
-		line-height: 40.87px;
+		line-height: 27.25px;
 		text-align: center;
 		color: #808080;
 	}
