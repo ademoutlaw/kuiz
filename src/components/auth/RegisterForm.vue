@@ -15,7 +15,7 @@
 			</div>
 			<template v-if="role === 'student'">
 				<div class="form-row">
-					<el-form-item label="المؤسسة التعليمية" required prop="institution">
+					<el-form-item label="المؤسسة التعليمية" required prop="institution" class="k-form-item">
 						<el-select v-model="form.institution" id="institution" placeholder="المؤسسة التعليمية">
 							<el-option value="public" label="تعليم عمومي" />
 							<el-option value="private" label="تعليم خاص" />
