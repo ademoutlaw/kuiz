@@ -11,6 +11,7 @@ export const useUserStore = defineStore('user', {
 		}
 		const requestStorage = localStorage.getItem('requests');
 		if (requestStorage) {
+			console.log(requestStorage);
 			requests = JSON.parse(requestStorage);
 		}
 		return {
