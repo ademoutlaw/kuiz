@@ -14,9 +14,9 @@
 			</div>
 			<div class="right-toolbar__item" @click="goToNotifications">
 				<img src="@/assets/bell.svg" alt="notif" />
-				<span v-if="userStore.notifs.length">
+				<!-- <span v-if="userStore.notifs.length">
 					{{ userStore.notifs.length }}
-				</span>
+				</span> -->
 			</div>
 			<div>
 				<el-dropdown trigger="click">
@@ -51,12 +51,11 @@
 	import { useRouter } from 'vue-router';
 	import { ArrowDown } from '@element-plus/icons-vue';
 	import { useUserStore } from '@/stores/user';
-	import { computed, ref } from 'vue';
+	import { computed } from 'vue';
 
 	const props = defineProps<{ guestPage?: boolean; noLangSetter?: boolean }>();
 
-	const loggedIn = ref(false);
-	const guest = computed(() => props.guestPage && !loggedIn.value);
+	const guest = computed(() => props.guestPage && !userStore.isAuthenticated);
 	const router = useRouter();
 
 	const userStore = useUserStore();
@@ -71,9 +70,9 @@
 		router.push({ name: 'profile' });
 	};
 	const goToNotifications = () => {
-		if (userStore.notifs.length > 0) {
-			router.push({ name: 'notifications' });
-		}
+		// if (userStore.notifs.length > 0) {
+		// 	router.push({ name: 'notifications' });
+		// }
 	};
 </script>
 <style scoped lang="scss">
