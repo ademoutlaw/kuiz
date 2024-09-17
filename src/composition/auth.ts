@@ -147,7 +147,7 @@ export const useAuth = () => {
 		// 	}
 		// }
 		console.log(password);
-		setUser({ email });
+		setUser({ email, role: email.includes('parent') ? 'parent' : 'student' });
 		return true;
 	};
 
