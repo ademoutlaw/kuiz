@@ -152,26 +152,28 @@ export const useAuth = () => {
 	};
 
 	const addRequest = (student: string) => {
-		const usersStorage = localStorage.getItem('allUsers');
-		if (!usersStorage) return { error: 'error' };
-		const email = currentUser.email;
-		const users = JSON.parse(usersStorage);
-		for (const user of users) {
-			if (user.email === student.toLowerCase() || user.mobile === student) {
-				const request = {
-					parent: email,
-					student: user.email,
-					pending: true,
-				};
-				const { requests, error } = _addRequest(request);
-				if (error) {
-					return { error };
-				}
-				setRequests(requests);
-				return { error: null };
-			}
-		}
-		return { error: 'عذراً، لا يوجد حساب مرتبط بهذا البريد الإلكتروني أو رقم الهاتف' };
+		console.log(student);
+		return { error: null };
+		// const usersStorage = localStorage.getItem('allUsers');
+		// if (!usersStorage) return { error: 'error' };
+		// const email = currentUser.email;
+		// const users = JSON.parse(usersStorage);
+		// for (const user of users) {
+		// 	if (user.email === student.toLowerCase() || user.mobile === student) {
+		// 		const request = {
+		// 			parent: email,
+		// 			student: user.email,
+		// 			pending: true,
+		// 		};
+		// 		const { requests, error } = _addRequest(request);
+		// 		if (error) {
+		// 			return { error };
+		// 		}
+		// 		setRequests(requests);
+		// 		return { error: null };
+		// 	}
+		// }
+		// return { error: 'عذراً، لا يوجد حساب مرتبط بهذا البريد الإلكتروني أو رقم الهاتف' };
 	};
 
 	const register = (user: User) => {
