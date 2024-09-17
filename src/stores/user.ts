@@ -30,6 +30,7 @@ export const useUserStore = defineStore('user', {
 			localStorage.removeItem('user');
 			localStorage.removeItem('requests');
 		},
+		requestDecision(parent: string, decision: string) {},
 	},
 	getters: {
 		isAuthenticated: state => state.user.loggedIn,
