@@ -141,12 +141,10 @@ export const useAuth = () => {
 		for (const user of users) {
 			if (user.email === email.toLowerCase()) {
 				if (user.password === password) {
-					setUser(user);
-					setRequests(_getRequests(user.email, user.role));
-					return true;
 				}
-				// error
-				return false;
+				setUser(user);
+				setRequests(_getRequests(user.email, user.role));
+				return true;
 			}
 		}
 	};
