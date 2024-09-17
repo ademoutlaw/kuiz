@@ -3,19 +3,23 @@ import { defineStore } from 'pinia';
 
 export const useUserStore = defineStore('user', {
 	state: () => {
+		let user: any = { name: '', loggedIn: false };
+		let requests = [];
 		const userStorage = localStorage.getItem('user');
+		if (userStorage) {
+			user = JSON.parse(userStorage);
+		}
 		const requestStorage = localStorage.getItem('requests');
-		console.log({ userStorage });
-		const user = (userStorage && JSON.parse(userStorage)) || { name: '', loggedIn: false };
-		const requests = (requestStorage && JSON.parse(requestStorage)) || [];
-		console.log({ user });
+		if (requestStorage) {
+			requests = JSON.parse(requestStorage);
+		}
 		return {
 			user,
 			requests,
 		};
 	},
 	actions: {
-		setUser(user: User) {
+		setUser(user: any) {
 			this.user = { ...user, loggedIn: true };
 			localStorage.setItem('user', JSON.stringify(this.user));
 		},
@@ -30,7 +34,9 @@ export const useUserStore = defineStore('user', {
 			localStorage.removeItem('user');
 			localStorage.removeItem('requests');
 		},
-		requestDecision(parent: string, decision: string) {},
+		requestDecision(parent: string, decision: boolean) {
+			console.log(parent, decision);
+		},
 	},
 	getters: {
 		isAuthenticated: state => state.user.loggedIn,

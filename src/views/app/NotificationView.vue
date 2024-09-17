@@ -7,8 +7,8 @@
 				</div>
 				<div class="child-name">{{ child.parent }}</div>
 				<div>
-					<button class="accept-btn">قبول</button>
-					<button class="decline-btn">رفض</button>
+					<button class="accept-btn" @click="userStore.requestDecision(child.parent, true)">قبول</button>
+					<button class="decline-btn" @click="userStore.requestDecision(child.parent, false)">رفض</button>
 				</div>
 			</div>
 		</div>
@@ -19,6 +19,7 @@
 	import { useUserStore } from '@/stores/user';
 
 	const userStore = useUserStore();
+	
 </script>
 
 <style scoped lang="scss">
