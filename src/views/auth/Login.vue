@@ -7,8 +7,8 @@
 					<KInput
 						v-model="form.email"
 						id="email"
-						placeholder="رقم الهاتف أو البريد الإلكتروني"
-						label="رقم الهاتف أو البريد الإلكتروني"
+						placeholder="البريد الإلكتروني"
+						label="البريد الإلكتروني"
 						prop="email"
 						required
 					/>

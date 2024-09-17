@@ -1,7 +1,7 @@
 const EMAIL_REGEXP =
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 // const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-const PASSWORD_REGEXP = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!.%*?&]{8,}$/;
+const PASSWORD_REGEXP = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\s\S]{8,}$/;
 const MOBILE_REGEXP = /^\d{8}$/i;
 const LOGIN_REGEXP = new RegExp(`(${EMAIL_REGEXP.source})|(${MOBILE_REGEXP.source})`);
 
@@ -48,6 +48,10 @@ export function createInputValidatorByCustomValidation(requiredMsg: string, inva
 export function createInputValidatorByRegex(requiredMsg: string, invalidMsg: string, regExpKey: RegExpKey) {
 	return createFormControlValidator((_rule: any, value: any, callback: any) => {
 		if (!value || !value.length) return callback(requiredMsg);
+		if (regExpKey === 'password') {
+			callback();
+			return;
+		}
 		const regex = REGEXPS[regExpKey];
 		if (regex && !regex.test(value)) return callback(invalidMsg);
 		callback();

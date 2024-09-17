@@ -3,7 +3,7 @@
 		<template v-if="guest">
 			<router-link :to="{ name: 'login' }" class="right-toolbar__login-btn">تسجيل دخول</router-link>
 			<router-link :to="{ name: 'register' }" class="right-toolbar__register-btn">اشترك الان</router-link>
-			<div class="header-lang-setting" @click="loggedIn = !loggedIn" v-if="!noLangSetter">
+			<div class="header-lang-setting" v-if="!noLangSetter">
 				<div class="header-lang-flag"></div>
 				<div class="header-lang">عربية</div>
 			</div>
