@@ -8,7 +8,7 @@ const resetPasswordData = reactive({
 });
 
 export const useAuth = () => {
-	const { setUser, user: currentUser } = useUserStore();
+	const { setUser, user: currentUser, setRequests } = useUserStore();
 	const requestResetPassword = async (email: string) => {
 		const usersStorage = localStorage.getItem('allUsers');
 		const users = JSON.parse(usersStorage!);
@@ -88,7 +88,53 @@ export const useAuth = () => {
 		};
 	};
 
+	const _getRequests = (userEmail: string, userRole: string) => {
+		console.log('_getRequests', userEmail, userRole);
+		const requestsStorage = localStorage.getItem('allRequests');
+		if (!requestsStorage) {
+			localStorage.setItem('allRequests', JSON.stringify([]));
+			return [];
+		}
+		const allRequests = JSON.parse(requestsStorage);
+		for (const requests of allRequests) {
+			const firstRequest = requests[0];
+			if (userRole === 'parent') {
+				if (firstRequest.parent === userEmail) {
+					return requests;
+				}
+			} else {
+				if (firstRequest.student === userEmail) {
+					return requests;
+				}
+			}
+		}
+	};
+	const _addRequest = (request: any) => {
+		const requestsStorage = localStorage.getItem('allRequests');
+		if (!requestsStorage) {
+			localStorage.setItem('allRequests', JSON.stringify([[request]]));
+			return { requests: [request], error: null };
+		}
+		const allRequests = JSON.parse(requestsStorage);
+		for (const requests of allRequests) {
+			const firstRequest = requests[0];
+			if (firstRequest.parent === firstRequest.parent) {
+				for (const req of requests) {
+					if (req.student === request.student) {
+						return { requests: [], error: 'عذراً، هذا الحساب قد تم إضافته بالفعل' };
+					}
+				}
+				requests.push(request);
+				localStorage.setItem('allRequests', JSON.stringify(allRequests));
+				return { requests, error: null };
+			}
+		}
+		localStorage.setItem('allRequests', JSON.stringify([[request]]));
+		return { requests: [request], error: null };
+	};
+
 	const login = (email: string, password: string) => {
+		console.log('login', email, password);
 		const usersStorage = localStorage.getItem('allUsers');
 		if (!usersStorage) return false;
 		const users = JSON.parse(usersStorage);
@@ -96,12 +142,36 @@ export const useAuth = () => {
 			if (user.email === email.toLowerCase()) {
 				if (user.password === password) {
 					setUser(user);
+					setRequests(_getRequests(user.email, user.role));
 					return true;
 				}
 				// error
 				return false;
 			}
 		}
+	};
+
+	const addRequest = (student: string) => {
+		const usersStorage = localStorage.getItem('allUsers');
+		if (!usersStorage) return { error: 'error' };
+		const email = currentUser.email;
+		const users = JSON.parse(usersStorage);
+		for (const user of users) {
+			if (user.email === student.toLowerCase() || user.mobile === student) {
+				const request = {
+					parent: email,
+					student: user.email,
+					pending: true,
+				};
+				const { requests, error } = _addRequest(request);
+				if (error) {
+					return { error };
+				}
+				setRequests(requests);
+				return { error: null };
+			}
+		}
+		return { error: 'عذراً، لا يوجد حساب مرتبط بهذا البريد الإلكتروني أو رقم الهاتف' };
 	};
 
 	const register = (user: User) => {
@@ -117,17 +187,15 @@ export const useAuth = () => {
 		}
 		const users = JSON.parse(usersStorage);
 		let sameEmail = false;
+		let sameMobile = false;
 		for (const u of users) {
 			if (u.email === newUser.email) {
 				sameEmail = true;
-				break;
+				if (sameMobile) break;
 			}
-		}
-		let sameMobile = false;
-		for (const u of users) {
 			if (u.mobile === newUser.mobile) {
 				sameMobile = true;
-				break;
+				if (sameEmail) break;
 			}
 		}
 		const errors = [];
@@ -166,5 +234,6 @@ export const useAuth = () => {
 		resetPassword,
 		login,
 		register,
+		addRequest,
 	};
 };

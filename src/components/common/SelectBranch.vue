@@ -31,7 +31,7 @@
 					},
 					{
 						label: 'العلوم التجريبية',
-						value: 'science',
+						value: 'sci',
 					},
 					{
 						label: 'الاداب',

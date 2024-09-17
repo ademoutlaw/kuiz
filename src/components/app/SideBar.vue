@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
 	<nav class="shrink-0 flex flex-col w-32 top-0 sticky h-screen">
 		<div class="logo shrink-0">
@@ -15,7 +13,7 @@
 						</div>
 					</RouterLink>
 				</li>
-				<li>
+				<li v-if="userRole === 'student'">
 					<RouterLink :to="{ name: 'level' }">
 						<div class="item-container">
 							<img src="@/assets/question-mark-square.svg" alt="" />
@@ -23,7 +21,7 @@
 						</div>
 					</RouterLink>
 				</li>
-				<li>
+				<li v-if="userRole === 'student'">
 					<RouterLink :to="{ name: 'progress' }">
 						<div class="item-container">
 							<img src="@/assets/star-linear.svg" alt="" />
@@ -51,7 +49,11 @@
 		</el-scrollbar>
 	</nav>
 </template>
-<!--  -->
+<script setup lang="ts">
+	import { useUserStore } from '@/stores/user';
+
+	const { userRole } = useUserStore();
+</script>
 <style scoped lang="scss">
 	nav {
 		background: rgba(128, 0, 128, 1);

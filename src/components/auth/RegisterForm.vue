@@ -104,9 +104,10 @@
 		level: string;
 		optionalSubject: string;
 		branch: string;
+		role?: string;
 	}
 
-	defineProps<{ role: 'parent' | 'student' | null }>();
+	const props = defineProps<{ role: 'parent' | 'student' | null }>();
 
 	const { register } = useAuth();
 	const router = useRouter();
@@ -128,6 +129,7 @@
 		level: '',
 		optionalSubject: '',
 		branch: '',
+		role: props.role!,
 	});
 	const formRef = ref<FormInstance>();
 

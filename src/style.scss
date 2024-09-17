@@ -107,3 +107,28 @@ body {
 		padding: 7px 12px;
 	}
 }
+
+.k-dialog {
+	max-height: 75vh;
+	padding-top: 50px;
+	border-radius: 40px;
+	padding: 0;
+	width: max-content;
+	min-width: 400px;
+	min-height: 200px;
+	.el-dialog__header {
+		height: 0px;
+		padding: 0;
+		button {
+			position: absolute;
+			top: 24px;
+			left: 24px;
+			font-size: 24px;
+			color: #4d4d4d;
+		}
+	}
+	.el-dialog__body {
+		padding: 50px 0 0;
+		max-height: calc(100% - 50px);
+	}
+}

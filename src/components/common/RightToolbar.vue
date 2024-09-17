@@ -9,11 +9,14 @@
 			</div>
 		</template>
 		<template v-else>
-			<div class="right-toolbar__item" @click="loggedIn = !loggedIn">
+			<div class="right-toolbar__item">
 				<img src="@/assets/champion-cup.svg" alt="gift" />
 			</div>
-			<div class="right-toolbar__item">
+			<div class="right-toolbar__item" @click="goToNotifications">
 				<img src="@/assets/bell.svg" alt="notif" />
+				<span v-if="userStore.notifs.length">
+					{{ userStore.notifs.length }}
+				</span>
 			</div>
 			<div>
 				<el-dropdown trigger="click">
@@ -67,6 +70,11 @@
 	const goToProfile = () => {
 		router.push({ name: 'profile' });
 	};
+	const goToNotifications = () => {
+		if (userStore.notifs.length > 0) {
+			router.push({ name: 'notifications' });
+		}
+	};
 </script>
 <style scoped lang="scss">
 	.right-toolbar {
@@ -107,6 +115,23 @@
 
 		&__item {
 			margin-left: 16px;
+			position: relative;
+			span {
+				position: absolute;
+				width: 16px;
+				height: 16px;
+				color: white;
+				background: red;
+				border-radius: 50%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 11px;
+				line-height: 12px;
+				top: -4px;
+				right: -4px;
+				z-index: -1;
+			}
 		}
 		.header-bell {
 			background-image: url(@/assets/bell.svg);

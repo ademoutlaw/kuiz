@@ -1,5 +1,5 @@
 <template>
-	<el-dialog v-model="show" :show-close="false" class="password-form-modal rounded-[40px] w-[494px] h-[495px] p-0">
+	<el-dialog v-model="show" :show-close="false" class="password-form-modal k-dialog w-[494px] h-[495px]">
 		<template #header="{ close, titleId }">
 			<button @click="close" :id="titleId">
 				<Icon icon="material-symbols:close-rounded" />
@@ -138,19 +138,6 @@
 
 <style lang="scss">
 	.password-form-modal {
-		max-height: 75vh;
-		padding-top: 50px;
-		.el-dialog__header {
-			height: 0px;
-			padding: 0;
-			button {
-				position: absolute;
-				top: 24px;
-				left: 24px;
-				font-size: 24px;
-				color: #4d4d4d;
-			}
-		}
 		.modal-body {
 			max-height: 420px;
 			height: calc(75vh - 70px);

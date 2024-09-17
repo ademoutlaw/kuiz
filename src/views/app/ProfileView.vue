@@ -31,22 +31,24 @@
 						disabled
 					/>
 				</div>
-				<h1 class="mt-6">معلومات أكاديمية</h1>
-				<div class="form-row">
-					<el-form-item label="المؤسسة التعليمية" prop="institution" class="k-form-item preset">
-						<el-select v-model="form.institution" id="institution" placeholder="المؤسسة التعليمية">
-							<el-option value="public" label="تعليم عمومي" />
-							<el-option value="private" label="تعليم خاص" />
-							<el-option value="free" label="تعليم حر" />
-						</el-select>
-					</el-form-item>
-					<SelectLevel :institution="form.institution" v-model="form.level" preset />
-				</div>
-				<div class="form-row" v-if="['2', '3', '4'].includes(form.level)">
-					<SelectBranch :level="form.level" preset />
-					<SelectOptionalSubject :branch="form.branch" preset v-if="'4' === form.level" />
-					<div class="form-col" v-else></div>
-				</div>
+				<template v-if="userRole === 'student'">
+					<h1 class="mt-6">معلومات أكاديمية</h1>
+					<div class="form-row">
+						<el-form-item label="المؤسسة التعليمية" prop="institution" class="k-form-item preset">
+							<el-select v-model="form.institution" id="institution" placeholder="المؤسسة التعليمية">
+								<el-option value="public" label="تعليم عمومي" />
+								<el-option value="private" label="تعليم خاص" />
+								<el-option value="free" label="تعليم حر" />
+							</el-select>
+						</el-form-item>
+						<SelectLevel :institution="form.institution" v-model="form.level" preset />
+					</div>
+					<div class="form-row" v-if="['2', '3', '4'].includes(form.level)">
+						<SelectBranch :level="form.level" preset />
+						<SelectOptionalSubject :branch="form.branch" preset v-if="'4' === form.level" />
+						<div class="form-col" v-else></div>
+					</div>
+				</template>
 				<div class="form-action">
 					<button id="update-btn" type="submit">حفظ التعديل</button>
 				</div>
@@ -65,6 +67,9 @@
 	import SelectOptionalSubject from '@/components/common/SelectOptionalSubject.vue';
 	import PasswordFormModal from '@/components/app/profile/PasswordFormModal.vue';
 	import ChangePictureModal from '@/components/app/profile/ChangePictureModal.vue';
+	import { useUserStore } from '@/stores/user';
+
+	const { userRole } = useUserStore();
 	const _form = {
 		firstname: 'adem',
 		lastname: 'ferjani',

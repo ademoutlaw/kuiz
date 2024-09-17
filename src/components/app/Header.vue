@@ -2,7 +2,8 @@
 	<header class="flex items-center justify-between px-8 py-4">
 		<div class="header-head">
 			<h2>مرحبًا بك<span>👋</span></h2>
-			<h3>لنبدأ اليوم بكويز جديد</h3>
+			<h3 v-if="userRole === 'student'">لنبدأ اليوم بكويز جديد</h3>
+			<h3 v-else>لوحة تحكم الآباء</h3>
 		</div>
 		<KSearch />
 		<RightToolbar />
@@ -10,8 +11,12 @@
 </template>
 <!--  -->
 <script setup lang="ts">
+	import { storeToRefs } from 'pinia';
 	import KSearch from '@/components/common/KSearch.vue';
 	import RightToolbar from '@/components/common/RightToolbar.vue';
+	import { useUserStore } from '@/stores/user';
+
+	const { userRole } = storeToRefs(useUserStore());
 </script>
 <style scoped lang="scss">
 	header {

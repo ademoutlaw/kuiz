@@ -17,6 +17,7 @@ import ProgressView from '@/views/app/ProgressView.vue';
 import { useUserStore } from '@/stores/user';
 import ProfileView from '@/views/app/ProfileView.vue';
 import HelpView from '@/views/app/HelpView.vue';
+import NotificationView from '@/views/app/NotificationView.vue';
 
 const router = createRouter({
 	// history: createWebHistory(process.env.BASE_URL),
@@ -134,6 +135,11 @@ const router = createRouter({
 					path: 'help',
 					name: 'help',
 					component: HelpView,
+				},
+				{
+					path: 'notifications',
+					name: 'notifications',
+					component: NotificationView,
 				},
 			],
 		},
